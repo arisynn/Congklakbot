@@ -4,7 +4,7 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
-<title>CONGKLAK & MANCALA VS AI</title>
+<title>CONGKLAK STORY MODE</title>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
 <style>
   @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800;900&family=Inter:wght@300;400;500;600;700;800&display=swap');
@@ -39,17 +39,15 @@
   }
 
   /* ===== SCREENS ===== */
-  .screen { position: fixed; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; z-index: 10; transition: padding-top 0.3s; }
-  .screen.hidden { display: none; }
+  .screen { position: fixed; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; z-index: 10; transition: opacity 0.3s, transform 0.3s; }
+  .screen.hidden { opacity: 0; pointer-events: none; transform: scale(0.98); z-index: -1; }
 
-  /* ===== LOBBY ===== */
-  #lobby { background: radial-gradient(ellipse at 50% 0%, rgba(37,99,235,0.06) 0%, transparent 55%), linear-gradient(160deg, var(--bg-top) 0%, var(--bg-bottom) 100%); }
+  /* ===== LOBBY / MAIN MENU ===== */
+  #main-menu { background: radial-gradient(ellipse at 50% 0%, rgba(37,99,235,0.06) 0%, transparent 55%), linear-gradient(160deg, var(--bg-top) 0%, var(--bg-bottom) 100%); }
   
   .lobby-title {
-    font-family: 'Poppins', sans-serif;
-    font-size: clamp(22px, 6vh, 42px);
-    font-weight: 800; color: var(--ink);
-    letter-spacing: 0.04em; margin-bottom: 2px;
+    font-family: 'Poppins', sans-serif; font-size: clamp(24px, 6vh, 46px);
+    font-weight: 900; color: var(--ink); letter-spacing: 0.02em; margin-bottom: 4px;
     background: linear-gradient(135deg, var(--ink) 0%, var(--accent) 100%);
     -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;
     text-align: center; white-space: nowrap;
@@ -60,22 +58,21 @@
     font-family: 'Inter', sans-serif; font-size: 12px; font-weight: 600;
     color: var(--ink-soft); background: var(--surface);
     padding: 6px 16px; border-radius: 999px; border: 1px solid var(--line);
-    margin-bottom: 12px; cursor: pointer; transition: all 0.2s;
+    margin-bottom: 24px; cursor: pointer; transition: all 0.2s;
     box-shadow: 0 4px 12px rgba(30,41,59,0.03);
   }
   .lobby-welcome:hover { background: var(--surface-2); color: var(--accent); border-color: #cdd5e1; transform: translateY(-2px); box-shadow: 0 6px 16px rgba(37,99,235,0.08); }
   .lobby-welcome #lobby-display-name { font-weight: 700; color: var(--ink); }
 
-  .lobby-card {
+  .menu-card {
     background: var(--surface); border: 1px solid var(--line); border-radius: 20px;
-    padding: 16px 24px; width: min(440px, 90vw);
-    display: flex; flex-direction: column; gap: 8px;
+    padding: 24px; width: min(400px, 90vw); display: flex; flex-direction: column; gap: 12px;
     box-shadow: 0 20px 50px var(--shadow), 0 2px 8px rgba(30,41,59,0.04);
   }
 
   .variant-selector { display: flex; gap: 8px; background: var(--surface-2); padding: 4px; border-radius: 12px; border: 1px solid var(--line); }
   .variant-btn {
-    flex: 1; padding: 8px 0; text-align: center; font-size: 11px; font-weight: 700;
+    flex: 1; padding: 10px 0; text-align: center; font-size: 12px; font-weight: 700;
     color: var(--ink-soft); border-radius: 8px; cursor: pointer; transition: all 0.2s;
     display: flex; align-items: center; justify-content: center; gap: 6px;
   }
@@ -83,38 +80,67 @@
   .variant-btn.active { background: #ffffff; color: var(--accent); box-shadow: 0 4px 12px var(--shadow); }
   .variant-btn.active svg { opacity: 1; stroke: var(--accent); }
 
-  /* ===== LEVEL SELECTOR ===== */
-  .level-selector { display: flex; gap: 6px; }
-  .lvl-btn {
-    flex: 1; padding: 10px 0; border-radius: 10px; border: 1px solid var(--line);
-    background: var(--surface); color: var(--ink-soft); font-family: 'Poppins', sans-serif;
-    font-size: 14px; font-weight: 700; cursor: pointer; transition: all 0.2s;
+  /* ===== LEVEL SELECT SCREEN ===== */
+  .level-header {
+    width: min(460px, 90vw); display: flex; align-items: center; justify-content: space-between;
+    margin-bottom: 16px;
   }
-  .lvl-btn:hover { background: var(--surface-2); color: var(--ink); }
-  .lvl-btn.active { background: var(--p2-color); color: #fff; border-color: var(--p2-color); box-shadow: 0 4px 12px rgba(244,63,94,0.3); transform: scale(1.05); z-index: 2; }
-  .lvl-desc { text-align: center; font-size: 11px; font-weight: 600; color: var(--ink-faint); margin-top: -4px; margin-bottom: 4px; height: 16px; }
+  .level-title { font-family: 'Poppins', sans-serif; font-size: 20px; font-weight: 800; color: var(--ink); }
+  .btn-back { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 8px 12px; font-size: 11px; font-weight: 700; cursor: pointer; color: var(--ink-soft); display: flex; align-items: center; gap: 6px; transition: all 0.2s; }
+  .btn-back:hover { background: var(--surface-2); color: var(--ink); }
 
+  .opponent-list {
+    width: min(460px, 90vw); display: flex; flex-direction: column; gap: 10px;
+    max-height: 55vh; overflow-y: auto; padding-right: 4px; padding-bottom: 12px;
+  }
+  .opp-card {
+    display: flex; align-items: center; padding: 12px 16px; border-radius: 16px;
+    background: var(--surface); border: 2px solid var(--line); cursor: pointer;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1); position: relative; overflow: hidden;
+  }
+  .opp-card:hover:not(.locked) { transform: translateY(-2px); border-color: #cbd5e1; box-shadow: 0 8px 24px rgba(30,41,59,0.06); }
+  .opp-card.locked { opacity: 0.65; cursor: not-allowed; background: var(--surface-2); }
+  .opp-card.locked .opp-avatar { filter: grayscale(100%); opacity: 0.5; }
+  .opp-card.active { border-color: var(--accent); background: #f8fafc; box-shadow: 0 8px 24px var(--accent-soft); }
+  
+  .opp-avatar {
+    width: 44px; height: 44px; border-radius: 12px; display: flex; align-items: center; justify-content: center;
+    font-family: 'Poppins', sans-serif; font-weight: 800; font-size: 16px; color: #fff; margin-right: 16px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+  }
+  .opp-info { flex: 1; display: flex; flex-direction: column; justify-content: center; }
+  .opp-name { font-family: 'Poppins', sans-serif; font-size: 15px; font-weight: 800; color: var(--ink); line-height: 1.2; }
+  .opp-title { font-size: 11px; font-weight: 700; color: var(--ink-faint); text-transform: uppercase; letter-spacing: 0.05em; }
+  .opp-lock-icon { position: absolute; right: 20px; color: var(--ink-faint); }
+
+  .challenge-panel {
+    width: min(460px, 90vw); background: var(--surface); border: 1px solid var(--line);
+    border-radius: 16px; padding: 16px; margin-top: auto; display: flex; flex-direction: column; gap: 12px;
+    box-shadow: 0 -10px 40px rgba(30,41,59,0.05); z-index: 2;
+  }
+  .opp-quote { font-size: 12px; font-weight: 500; color: var(--ink-soft); font-style: italic; text-align: center; }
+
+  /* ===== BUTTONS & INPUTS ===== */
   .btn {
-    padding: 12px 20px; border-radius: 10px; border: none; cursor: pointer;
-    font-family: 'Inter', sans-serif; font-size: clamp(11px, 1.2vw, 13px);
-    font-weight: 700; letter-spacing: 0.04em; transition: transform 0.15s ease, box-shadow 0.2s ease, background 0.2s ease;
+    padding: 14px 20px; border-radius: 12px; border: none; cursor: pointer;
+    font-family: 'Inter', sans-serif; font-size: 13px; font-weight: 700; letter-spacing: 0.04em;
+    transition: transform 0.15s ease, box-shadow 0.2s ease, background 0.2s ease;
     display: flex; align-items: center; justify-content: center; gap: 8px; width: 100%;
   }
   .btn:active { transform: scale(0.97); }
   .btn-primary { background: var(--accent); color: #ffffff; box-shadow: 0 8px 20px rgba(37,99,235,0.28); }
-  .btn-primary:hover { background: #1d4fd1; box-shadow: 0 10px 24px rgba(37,99,235,0.34); transform: translateY(-1px); }
+  .btn-primary:hover { background: #1d4fd1; box-shadow: 0 10px 24px rgba(37,99,235,0.34); transform: translateY(-2px); }
   .btn-gold { background: linear-gradient(135deg, var(--emerald), #0ea271); color: #ffffff; box-shadow: 0 8px 20px rgba(16,185,129,0.30); }
-  .btn-gold:hover { background: linear-gradient(135deg, #14c98a, var(--emerald)); box-shadow: 0 10px 24px rgba(16,185,129,0.36); transform: translateY(-1px); }
+  .btn-gold:hover { background: linear-gradient(135deg, #14c98a, var(--emerald)); box-shadow: 0 10px 24px rgba(16,185,129,0.36); transform: translateY(-2px); }
   .btn-outline { background: var(--surface); color: var(--ink-soft); border: 1px solid var(--line); }
-  .btn-outline:hover { background: var(--surface-2); border-color: #cdd5e1; color: var(--ink); }
+  .btn-outline:hover { background: var(--surface-2); border-color: #cbd5e1; color: var(--ink); }
 
   .input-field {
-    width: 100%; padding: 10px 14px; border-radius: 10px; border: 1px solid var(--line);
-    background: var(--surface-2); color: var(--ink); font-size: 13px;
-    font-family: 'Inter', sans-serif; outline: none; transition: border-color 0.2s, background 0.2s;
+    width: 100%; padding: 12px 16px; border-radius: 12px; border: 1px solid var(--line);
+    background: var(--surface-2); color: var(--ink); font-size: 14px; font-family: 'Inter', sans-serif;
+    outline: none; transition: border-color 0.2s, background 0.2s;
   }
   .input-field:focus { border-color: var(--accent); background: #ffffff; }
-  .input-field::placeholder { color: var(--ink-faint); }
 
   .divider { display: flex; align-items: center; gap: 12px; color: var(--ink-faint); font-size: 10px; font-weight: 600; letter-spacing: 0.2em; margin: 4px 0; }
   .divider::before, .divider::after { content:''; flex:1; height:1px; background: var(--line); }
@@ -129,14 +155,12 @@
   /* ===== GAME SCREEN & BOARD ===== */
   #game { background: radial-gradient(ellipse at 50% 50%, #ffffff 0%, var(--bg-bottom) 100%); }
   .hud {
-    position: fixed; top: 0; left: 0; right: 0; height: 50px;
-    display: flex; align-items: center; justify-content: space-between; padding: 0 20px;
+    position: fixed; top: 0; left: 0; right: 0; height: 50px; display: flex; align-items: center; justify-content: space-between; padding: 0 20px;
     z-index: 40; background: linear-gradient(to bottom, rgba(255,255,255,0.9), rgba(255,255,255,0)); backdrop-filter: blur(6px);
   }
   .hud-title { font-family: 'Poppins', sans-serif; font-size: 16px; font-weight: 800; color: var(--ink); letter-spacing: 0.08em; }
   .turn-badge {
-    padding: 6px 16px; border-radius: 999px; font-family: 'Inter', sans-serif;
-    font-size: 11px; font-weight: 700; letter-spacing: 0.06em; transition: all 0.4s;
+    padding: 6px 16px; border-radius: 999px; font-family: 'Inter', sans-serif; font-size: 11px; font-weight: 700; letter-spacing: 0.06em; transition: all 0.4s;
     box-shadow: 0 2px 8px var(--shadow); display: flex; align-items: center; justify-content: center; gap: 6px;
   }
   .turn-badge svg { width: 14px; height: 14px; }
@@ -147,16 +171,14 @@
   @keyframes turn-pulse { 0% { transform: scale(0.9); } 50% { transform: scale(1.07); } 100% { transform: scale(1); } }
 
   .btn-sm {
-    padding: 8px 16px; font-size: 10px; border-radius: 8px; background: var(--surface);
-    color: var(--ink-soft); border: 1px solid var(--line); cursor:pointer;
+    padding: 8px 16px; font-size: 10px; border-radius: 8px; background: var(--surface); color: var(--ink-soft); border: 1px solid var(--line); cursor:pointer;
     font-family:'Inter',sans-serif; font-weight:700; letter-spacing:0.05em; transition: all 0.2s; box-shadow: 0 2px 8px var(--shadow);
   }
   .btn-sm:hover { background: var(--surface-2); color: var(--ink); transform: translateY(-1px); }
   .btn-sm.icon-only { padding: 8px; display: inline-flex; align-items: center; justify-content: center; }
 
   .score-panel {
-    position: fixed; bottom: 0; left: 0; right: 0; height: 44px;
-    display: flex; align-items: center; justify-content: center; gap: 28px;
+    position: fixed; bottom: 0; left: 0; right: 0; height: 44px; display: flex; align-items: center; justify-content: center; gap: 28px;
     background: linear-gradient(to top, rgba(255,255,255,0.9), rgba(255,255,255,0)); backdrop-filter: blur(6px); z-index: 40; pointer-events: none;
   }
   .score-item { display:flex; align-items:center; gap:8px; }
@@ -168,8 +190,7 @@
 
   #board-wrap { position: fixed; inset: 50px 0 44px 0; display: flex; align-items: center; justify-content: center; }
   .board {
-    position: relative; display: flex; flex-direction: row; align-items: center; justify-content: center;
-    gap: 0; border-radius: 20px; padding: 8px 10px;
+    position: relative; display: flex; flex-direction: row; align-items: center; justify-content: center; gap: 0; border-radius: 20px; padding: 8px 10px;
     background: linear-gradient(160deg, rgba(255,255,255,0.85) 0%, rgba(255,255,255,0.55) 100%);
     backdrop-filter: blur(18px); border: 1px solid rgba(255,255,255,0.6);
     box-shadow: 0 24px 60px rgba(30,41,59,0.12), 0 4px 16px rgba(30,41,59,0.06), inset 0 1px 0 rgba(255,255,255,0.9);
@@ -194,15 +215,12 @@
     animation: pulse-target 1s ease-in-out infinite alternate; cursor: pointer !important;
   }
   @keyframes pulse-target { from { transform: scale(1); } to { transform: scale(1.1); } }
-
   .pit.active-pit .pit-inner, .store.active-pit .store-inner { box-shadow: inset 0 4px 12px rgba(30,41,59,0.10), 0 0 0 3px var(--emerald), 0 0 16px rgba(16,185,129,0.45); }
   .pit.active-pit, .store.active-pit { animation: pit-pop 0.35s ease; }
   
   .pit-count {
-    font-family: 'Poppins', serif; font-size: clamp(8px, 1vw, 11px); font-weight: 700;
-    color: var(--ink-soft); background: var(--surface); border-radius: 999px;
-    padding: 0 6px; min-width: 18px; text-align: center; border: 1px solid var(--line);
-    pointer-events: none; box-shadow: 0 2px 6px var(--shadow);
+    font-family: 'Poppins', serif; font-size: clamp(8px, 1vw, 11px); font-weight: 700; color: var(--ink-soft); background: var(--surface); border-radius: 999px;
+    padding: 0 6px; min-width: 18px; text-align: center; border: 1px solid var(--line); pointer-events: none; box-shadow: 0 2px 6px var(--shadow);
   }
 
   .store-wrap { display: flex; flex-direction: column; align-items: center; gap: 4px; }
@@ -230,33 +248,17 @@
   .modal-overlay { position: fixed; inset: 0; background: rgba(30,41,59,0.35); backdrop-filter: blur(8px); display: flex; align-items: center; justify-content: center; z-index: 60; padding: 16px; transition: align-items 0.3s, padding-top 0.3s; }
   .modal-overlay.hidden { display: none; }
   
-  .name-modal-box {
+  .modal-box {
     background: var(--surface); border: 1px solid var(--line); border-radius: 20px;
-    padding: 16px 20px; text-align: center; min-width: min(380px, 92vw);
-    box-shadow: 0 32px 80px rgba(30,41,59,0.25); display: flex; flex-direction: column; gap: 10px;
-    animation: modal-in 0.3s ease;
+    padding: 24px; text-align: center; min-width: min(380px, 92vw); max-width: 480px;
+    box-shadow: 0 32px 80px rgba(30,41,59,0.25); display: flex; flex-direction: column; gap: 12px;
+    animation: modal-in 0.3s ease; position: relative;
   }
   @keyframes modal-in { from { opacity: 0; transform: translateY(12px) scale(0.97); } to { opacity: 1; transform: translateY(0) scale(1); } }
   
-  .name-modal-title { font-family: 'Poppins', sans-serif; font-size: 15px; font-weight: 800; color: var(--ink); letter-spacing: 0.02em; margin-bottom: 2px; text-align: left; }
-  .name-row { display: flex; align-items: center; gap: 8px; width: 100%; }
-  
-  .name-avatar {
-    width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center;
-    font-family: 'Poppins', sans-serif; font-size: 12px; font-weight: 700; flex-shrink: 0;
-  }
-  .name-avatar.p1 { background: var(--accent-soft); color: var(--p1-color); border: 1px solid rgba(37,99,235,0.25); }
-
-  /* ===== RULES MODAL ===== */
-  .rules-box {
-    background: var(--surface); border: 1px solid var(--line); border-radius: 20px;
-    padding: 20px 24px; text-align: left; width: min(480px, 92vw); max-height: 90vh;
-    box-shadow: 0 32px 80px rgba(30,41,59,0.25); display: flex; flex-direction: column; gap: 8px;
-    animation: modal-in 0.3s ease;
-  }
-  .rules-content { overflow-y: auto; padding-right: 8px; margin-bottom: 8px; }
-  .rules-content p, .rules-content li { font-size: 12px; line-height: 1.5; color: var(--ink-soft); }
-  .rules-content ol { padding-left: 20px; display: flex; flex-direction: column; gap: 6px; }
+  .modal-title { font-family: 'Poppins', sans-serif; font-size: 18px; font-weight: 800; color: var(--ink); letter-spacing: 0.02em; margin-bottom: 4px; text-align: left; }
+  .modal-close { position: absolute; top: 12px; right: 12px; width: 28px; height: 28px; border-radius: 50%; background: var(--surface-2); border: none; color: var(--ink-faint); cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.2s; }
+  .modal-close:hover { background: var(--line); color: var(--ink); }
 
   /* ===== TOAST ===== */
   #toast {
@@ -271,37 +273,19 @@
 
   .btn-fs-global {
     position: fixed; bottom: 16px; right: 16px; z-index: 20; padding: 8px 16px; border-radius: 12px;
-    border: 1px solid var(--line); background: var(--surface); color: var(--ink-soft);
-    font-family: 'Inter', sans-serif; font-size: 11px; font-weight: 700; letter-spacing: 0.06em;
-    cursor: pointer; transition: all 0.2s; box-shadow: 0 4px 14px var(--shadow); display: inline-flex; align-items: center; gap: 6px;
+    border: 1px solid var(--line); background: var(--surface); color: var(--ink-soft); font-family: 'Inter', sans-serif; font-size: 11px; font-weight: 700; letter-spacing: 0.06em; cursor: pointer; transition: all 0.2s; box-shadow: 0 4px 14px var(--shadow); display: inline-flex; align-items: center; gap: 6px;
   }
   .btn-fs-global:hover { background: var(--surface-2); color: var(--ink); }
 
   #btn-rules-lobby {
-    position: fixed; top: 16px; right: 16px; width: 36px; height: 36px; border-radius: 50%;
-    background: var(--surface); border: 1px solid var(--line); color: var(--ink-soft);
-    display: flex; align-items: center; justify-content: center; cursor: pointer;
-    box-shadow: 0 4px 14px var(--shadow); z-index: 20; transition: all 0.2s;
+    position: fixed; top: 16px; right: 16px; width: 36px; height: 36px; border-radius: 50%; background: var(--surface); border: 1px solid var(--line); color: var(--ink-soft); display: flex; align-items: center; justify-content: center; cursor: pointer; box-shadow: 0 4px 14px var(--shadow); z-index: 20; transition: all 0.2s;
   }
   #btn-rules-lobby:hover { background: var(--surface-2); color: var(--accent); transform: scale(1.05); }
 
-  .modal-close {
-    position: absolute; top: 12px; right: 12px; width: 28px; height: 28px; border-radius: 50%;
-    background: var(--surface-2); border: none; color: var(--ink-faint); cursor: pointer;
-    display: flex; align-items: center; justify-content: center; transition: all 0.2s;
-  }
-  .modal-close:hover { background: var(--line); color: var(--ink); }
-
   /* ===== REWARD MODAL ===== */
   #reward-box {
-    background: linear-gradient(135deg, #fffbeb, #fef3c7);
-    border: 2px solid #fde68a;
-    box-shadow: 0 32px 80px rgba(245, 158, 11, 0.4);
-    text-align: center;
-    padding: 30px;
-    border-radius: 24px;
-    position: relative;
-    overflow: hidden;
+    background: linear-gradient(135deg, #fffbeb, #fef3c7); border: 2px solid #fde68a;
+    box-shadow: 0 32px 80px rgba(245, 158, 11, 0.4); overflow: hidden;
   }
   #reward-box::before {
     content: ''; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%;
@@ -338,15 +322,15 @@
 
 <!-- RULES MODAL -->
 <div id="rules-modal" class="modal-overlay hidden" style="z-index: 90;">
-  <div class="rules-box" style="position:relative;">
+  <div class="modal-box" style="text-align: left;">
     <button class="modal-close" onclick="document.getElementById('rules-modal').classList.add('hidden')"><svg viewBox="0 0 24 24" width="14" height="14" stroke="currentColor" stroke-width="2" fill="none"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg></button>
-    <div style="text-align: center;">
+    <div style="text-align: center; margin-bottom: 12px;">
       <svg viewBox="0 0 24 24" width="32" height="32" fill="none" stroke="var(--emerald)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-bottom: 4px;"><circle cx="12" cy="12" r="10"></circle><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>
       <div style="font-family: 'Poppins', sans-serif; font-size: 18px; font-weight: 800; color: var(--ink);">Panduan Bermain</div>
     </div>
-    <div class="rules-content">
-      <p>Setiap pemain memiliki deretan lubang di sisinya dan satu lumbung besar di ujung kanan.</p>
-      <ol>
+    <div style="overflow-y: auto; max-height: 50vh; padding-right: 8px;">
+      <p style="font-size: 12px; color: var(--ink-soft); line-height: 1.5;">Setiap pemain memiliki deretan lubang di sisinya dan satu lumbung besar di ujung kanan.</p>
+      <ol style="font-size: 12px; color: var(--ink-soft); line-height: 1.5; padding-left: 20px; display: flex; flex-direction: column; gap: 6px; margin-top: 8px;">
         <li>Pada gilirannya, pilih satu lubang di sisi kamu untuk mengambil semua bijinya, lalu tabur berlawanan arah jarum jam.</li>
         <li>Biji <strong>tidak</strong> dimasukkan ke lumbung lawan.</li>
         <li>Jika biji terakhir jatuh di <strong>lumbung sendiri</strong>, kamu dapat <strong>giliran bonus</strong>.</li>
@@ -356,43 +340,49 @@
         <li>Permainan berakhir saat semua lubang di salah satu sisi kosong. Pemain dengan lumbung terbanyak menang.</li>
       </ol>
     </div>
-    <button class="btn btn-gold" id="rules-confirm" style="width:100%;">Saya Mengerti</button>
+    <button class="btn btn-gold" onclick="document.getElementById('rules-modal').classList.add('hidden')" style="margin-top: 12px;">Saya Mengerti</button>
   </div>
 </div>
 
-<!-- GLOBAL NAME MODAL (P1) -->
+<!-- GLOBAL NAME MODAL -->
 <div id="global-name-modal" class="modal-overlay hidden" style="z-index: 85;">
-  <div class="name-modal-box">
-    <div class="name-modal-title">MASUKKAN NAMA KAMU</div>
-    <div class="name-row">
-      <div class="name-avatar p1">P1</div>
-      <input class="input-field" id="input-global-name" placeholder="Nama..." maxlength="12" style="flex:1"/>
-      <button class="btn btn-gold" id="btn-save-global-name" style="padding: 10px 18px; font-size:12px; width:auto;">SIMPAN</button>
+  <div class="modal-box">
+    <div class="modal-title">SIAPA NAMAMU?</div>
+    <div style="display: flex; gap: 8px; align-items: center;">
+      <input class="input-field" id="input-global-name" placeholder="Ketik nama kamu..." maxlength="12" style="flex:1"/>
+      <button class="btn btn-primary" id="btn-save-global-name" style="width:auto;">SIMPAN</button>
     </div>
   </div>
 </div>
 
 <!-- REWARD MODAL -->
 <div id="reward-modal" class="modal-overlay hidden" style="z-index: 100;">
-  <div class="name-modal-box" id="reward-box">
+  <div class="modal-box" id="reward-box">
     <div style="font-family: 'Poppins', sans-serif; font-size: 24px; font-weight: 900; color: #b45309; text-shadow: 0 2px 4px rgba(251,191,36,0.5);">🏆 LUAR BIASA! 🏆</div>
-    <p style="font-size: 13px; color: #92400e; font-weight: 600; margin-top: 5px;">Kamu berhasil menaklukkan AI Level 5 (Insane)!</p>
+    <p style="font-size: 13px; color: #92400e; font-weight: 600; margin-top: 5px;">Kamu berhasil menaklukkan Kael sang Grandmaster!</p>
     <div style="font-size: 60px; margin: 15px 0; animation: bounce 2s infinite;">👑</div>
-    <p style="font-size: 12px; color: #78350f; font-weight: 500; margin-bottom: 15px;">Kamu adalah Master sejati dari permainan tradisional ini. Strategi kamu tak tertandingi!</p>
-    <button class="btn btn-gold" onclick="document.getElementById('reward-modal').classList.add('hidden')" style="width:100%;">KLAIM GELAR & TUTUP</button>
+    <p style="font-size: 12px; color: #78350f; font-weight: 500; margin-bottom: 15px;">Kamu adalah Master sejati dari permainan ini. Strategi dan ketenanganmu tak tertandingi!</p>
+    <button class="btn btn-gold" onclick="document.getElementById('reward-modal').classList.add('hidden')">KLAIM GELAR & TUTUP</button>
   </div>
 </div>
 
-<!-- LOBBY -->
-<div id="lobby" class="screen">
-  <div class="lobby-title">CONGKLAK VS AI</div>
+<!-- SCREEN 1: LOBBY / MAIN MENU -->
+<div id="main-menu" class="screen">
+  <div class="lobby-title">CONGKLAK CHRONICLES</div>
   
   <div class="lobby-welcome" id="btn-change-name" title="Ubah Nama">
-    <span>Hi, <span id="lobby-display-name">—</span></span>
+    <span>Player: <span id="lobby-display-name">—</span></span>
     <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>
   </div>
 
-  <div class="lobby-card">
+  <div class="menu-card">
+    <button class="btn btn-primary" id="btn-goto-level-select" style="padding: 16px; font-size: 15px;">
+      <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+      MULAI STORY MODE
+    </button>
+    
+    <div class="divider" style="margin-top: 8px;">PENGATURAN</div>
+    
     <div class="variant-selector">
       <div class="variant-btn active" id="btn-var-mancala" onclick="setVariant('mancala')">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><circle cx="8.5" cy="8.5" r="1.5"></circle><circle cx="15.5" cy="8.5" r="1.5"></circle><circle cx="15.5" cy="15.5" r="1.5"></circle><circle cx="8.5" cy="15.5" r="1.5"></circle></svg>
@@ -403,46 +393,50 @@
         Congklak (Relay)
       </div>
     </div>
-    
-    <div class="divider">PENGATURAN PERSONAL</div>
-    
-    <button class="btn btn-outline btn-icon" id="btn-toggle-sow-lobby" style="padding: 10px 14px;">
+
+    <button class="btn btn-outline btn-icon" id="btn-toggle-sow-lobby" style="padding: 12px 14px;">
       <svg id="icon-sow-lobby" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg>
       <span id="text-sow-lobby" style="flex:1; text-align:left; font-size:12px;">Mode Tabur: Otomatis</span>
-    </button>
-
-    <div class="divider" style="margin-top:4px;">PILIH LEVEL AI</div>
-    <div class="lvl-desc" id="ai-lvl-desc">Level 1: AI memilih lubang secara acak. Sangat mudah!</div>
-    <div class="level-selector" id="level-selector">
-      <button class="lvl-btn active" data-level="1">1</button>
-      <button class="lvl-btn" data-level="2">2</button>
-      <button class="lvl-btn" data-level="3">3</button>
-      <button class="lvl-btn" data-level="4">4</button>
-      <button class="lvl-btn" data-level="5" style="color:var(--p2-color);">5 💀</button>
-    </div>
-
-    <button class="btn btn-primary" id="btn-play-ai" style="margin-top: 4px;">
-      <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
-      MAIN VS AI
     </button>
   </div>
 </div>
 
-<!-- GAME -->
+<!-- SCREEN 2: LEVEL SELECT -->
+<div id="level-select" class="screen hidden" style="background: var(--surface-2);">
+  <div class="level-header">
+    <div class="level-title">PILIH LAWAN</div>
+    <button class="btn-back" onclick="showScreen('main-menu')">
+      <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+      Menu Utama
+    </button>
+  </div>
+
+  <div class="opponent-list" id="opponent-list-container">
+    <!-- List di-generate via JS -->
+  </div>
+
+  <div class="challenge-panel">
+    <div class="opp-quote" id="char-quote">"Pilih lawanmu untuk melihat profilnya."</div>
+    <button class="btn btn-primary" id="btn-play-ai" style="padding: 14px;">
+      <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+      TANTANG <span id="btn-challenge-name" style="margin-left: 4px;">...</span>
+    </button>
+  </div>
+</div>
+
+<!-- SCREEN 3: GAME -->
 <div id="game" class="screen hidden">
   <div class="hud">
     <div class="hud-title" id="in-game-title">MANCALA</div>
     <div class="turn-badge neutral" id="turn-badge">READY</div>
     <div style="display:flex; gap:8px;">
-      
       <button class="btn-sm icon-only" id="btn-toggle-sow-game" title="Ubah Mode Tabur">
         <svg id="icon-sow-game" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg>
       </button>
-
       <button class="btn-sm icon-only" id="btn-fs-game" title="Toggle Fullscreen">
         <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 3H5a2 2 0 0 0-2 2v3"></path><path d="M21 8V5a2 2 0 0 0-2-2h-3"></path><path d="M3 16v3a2 2 0 0 0 2 2h3"></path><path d="M16 21h3a2 2 0 0 0 2-2v-3"></path></svg>
       </button>
-      <button class="btn-sm" id="btn-menu">MENU</button>
+      <button class="btn-sm" id="btn-menu">MENYERAH</button>
     </div>
   </div>
 
@@ -458,7 +452,7 @@
     <div style="width:1px;height:20px;background:var(--line)"></div>
     <div class="score-item">
       <span class="score-num" id="score-p2">0</span>
-      <span class="score-label p2" id="score-name-p2">AI LEVEL 1</span>
+      <span class="score-label p2" id="score-name-p2">Lawan</span>
     </div>
   </div>
 </div>
@@ -466,12 +460,9 @@
 <!-- PHYSICAL SEEDS LAYER -->
 <div id="seed-layer"></div>
 
-<!-- TOAST -->
-<div id="toast"></div>
-
 <!-- GAME OVER MODAL -->
 <div class="modal-overlay hidden" id="gameover-modal">
-  <div class="name-modal-box">
+  <div class="modal-box">
     <div style="font-family:'Poppins',sans-serif; font-size:24px; font-weight:800; color:var(--ink); margin-bottom:4px;" id="go-title">GAME OVER</div>
     <div style="color:var(--ink-soft); font-size:12px; margin-bottom:20px;" id="go-sub">Skor Akhir</div>
     <div style="display:flex; gap:32px; justify-content:center; margin-bottom:20px;">
@@ -486,14 +477,14 @@
     </div>
     <div style="display:flex;gap:12px;justify-content:center">
       <button class="btn btn-gold" id="go-rematch" style="font-size:12px;padding:10px 24px;width:auto">ULANGI</button>
-      <button class="btn btn-outline" id="go-menu" style="font-size:12px;padding:10px 24px;width:auto">MENU</button>
+      <button class="btn btn-outline" id="go-menu" style="font-size:12px;padding:10px 24px;width:auto">KEMBALI</button>
     </div>
   </div>
 </div>
 
 <script>
 // ==========================================
-// KEYBOARD & INPUT FOCUS FIX
+// FIX KEYBOARD & INPUT FOCUS
 // ==========================================
 document.querySelectorAll('.input-field').forEach(input => {
   input.addEventListener('focus', () => document.body.classList.add('keyboard-open'));
@@ -503,8 +494,8 @@ document.querySelectorAll('.input-field').forEach(input => {
 // ==========================================
 // CONSTANTS & DYNAMIC STATE
 // ==========================================
-let gameVariant = 'mancala'; // mancala / congklak
-let sowingMode = 'auto';    // auto / manual
+let gameVariant = 'mancala'; 
+let sowingMode = 'auto';    
 
 let INITIAL_SEEDS = 4;
 let TOTAL_PITS = 14;
@@ -518,7 +509,6 @@ let startingPlayer = 1;
 let turn = 1;
 let gameActive = false;
 let animating = false;
-let currentAILevel = 1;
 
 let myGlobalName = '';
 
@@ -527,51 +517,70 @@ let heldSeeds = 0;
 let currentSowPit = -1;
 let movingSeedsArray = [];
 
-// WARNA BIJI
+// AI PROGRESS & CHARACTERS
+let currentAILevel = 1;
+let maxUnlockedLevel = parseInt(localStorage.getItem('congklak_story_progress')) || 1;
+
+const aiCharacters = {
+  1: { name: "Leo", title: "Sang Pemula", style: "Acak (Gampang)", desc: "\"Oh, hai! Aku Leo. Aku masih sering asal tabur biji, jadi kamu pasti bisa menang melawanku!\"", color: "#10b981" },
+  2: { name: "Maya", title: "Si Pengamat", style: "Defensif", desc: "\"Bermain itu soal ketelitian. Aku lebih suka bermain aman dan mencari giliran tambahan.\"", color: "#0ea5e9" },
+  3: { name: "Zane", title: "Sang Agresor", style: "Agresif (Greedy)", desc: "\"Pertahanan? Membosankan! Aku akan merebut semua bijimu kapanpun ada kesempatan!\"", color: "#f43f5e" },
+  4: { name: "Elena", title: "Ahli Taktik", style: "Taktis (Berpikir ke depan)", desc: "\"Catur atau Congklak, semuanya sama. Aku sudah memprediksi 4 langkahmu selanjutnya.\"", color: "#8b5cf6" },
+  5: { name: "Kael", title: "Grandmaster", style: "Sempurna (Insane)", desc: "\"Hanya sedikit yang bisa mencapaiku. Mari kita lihat apakah strategimu tanpa cela.\"", color: "#b45309" }
+};
+
 const ALL_SEED_COLORS = [
-  { base:'#2563EB', shine:'#BFDBFE', dark:'#1E3A8A' },
-  { base:'#0EA5E9', shine:'#BAE6FD', dark:'#075985' },
-  { base:'#6366F1', shine:'#C7D2FE', dark:'#3730A3' },
-  { base:'#F43F5E', shine:'#FECDD3', dark:'#9F1239' },
-  { base:'#F59E0B', shine:'#FDE68A', dark:'#92400E' },
-  { base:'#EC4899', shine:'#FBCFE8', dark:'#9D174D' },
-  { base:'#10B981', shine:'#A7F3D0', dark:'#065F46' },
-  { base:'#8B5CF6', shine:'#DDD6FE', dark:'#4C1D95' },
+  { base:'#2563EB', shine:'#BFDBFE', dark:'#1E3A8A' }, { base:'#0EA5E9', shine:'#BAE6FD', dark:'#075985' },
+  { base:'#6366F1', shine:'#C7D2FE', dark:'#3730A3' }, { base:'#F43F5E', shine:'#FECDD3', dark:'#9F1239' },
+  { base:'#F59E0B', shine:'#FDE68A', dark:'#92400E' }, { base:'#EC4899', shine:'#FBCFE8', dark:'#9D174D' },
+  { base:'#10B981', shine:'#A7F3D0', dark:'#065F46' }, { base:'#8B5CF6', shine:'#DDD6FE', dark:'#4C1D95' },
 ];
 
 const SVGS = {
   target: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><circle cx="12" cy="12" r="6"></circle><circle cx="12" cy="12" r="2"></circle></svg>',
   zap: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg>',
-  alert: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path><line x1="12" y1="9" x2="12" y2="13"></line><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>',
-  max: '<svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 3H5a2 2 0 0 0-2 2v3"></path><path d="M21 8V5a2 2 0 0 0-2-2h-3"></path><path d="M3 16v3a2 2 0 0 0 2 2h3"></path><path d="M16 21h3a2 2 0 0 0 2-2v-3"></path></svg>',
-  min: '<svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 3v3h-3"></path><path d="M16 3v3h3"></path><path d="M8 21v-3h-3"></path><path d="M16 21v-3h3"></path><path d="M3 8h3V5"></path><path d="M21 8h-3V5"></path><path d="M3 16h3v3"></path><path d="M21 16h-3v3"></path></svg>',
-  refresh: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 4 23 10 17 10"></polyline><polyline points="1 20 1 14 7 14"></polyline><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"></path></svg>',
-  hand: '<path d="M18 11V6a2 2 0 0 0-2-2v0a2 2 0 0 0-2 2v0"></path><path d="M14 10V4a2 2 0 0 0-2-2v0a2 2 0 0 0-2 2v2"></path><path d="M10 10.5V6a2 2 0 0 0-2-2v0a2 2 0 0 0-2 2v8"></path><path d="M18 8a2 2 0 1 1 4 0v6a8 8 0 0 1-8 8h-2c-2.8 0-4.5-.86-5.99-2.34l-3.6-3.6a2 2 0 0 1 2.83-2.82L7 15"></path>'
+  lock: '<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>'
 };
 
 // ==========================================
-// AI LEVEL SELECTOR
+// RENDER UI & LEVEL SELECTOR
 // ==========================================
-const aiLevelDescriptions = {
-  1: "Level 1: AI memilih lubang secara acak. Sangat mudah!",
-  2: "Level 2: AI sedikit pintar, akan mencari giliran ekstra jika ada.",
-  3: "Level 3: AI mulai agresif mencari giliran ekstra & capture.",
-  4: "Level 4: AI memprediksi langkah ke depan. Tantangan berat!",
-  5: "Level 5 💀: AI Insane memikirkan semua kemungkinan. Sulit dikalahkan!"
-};
+function renderLevelSelector() {
+  const container = document.getElementById('opponent-list-container');
+  container.innerHTML = '';
+  
+  for (let i = 1; i <= 5; i++) {
+    const char = aiCharacters[i];
+    const isLocked = i > maxUnlockedLevel;
+    
+    const card = document.createElement('div');
+    card.className = `opp-card ${i === currentAILevel ? 'active' : ''} ${isLocked ? 'locked' : ''}`;
+    
+    card.innerHTML = `
+      <div class="opp-avatar" style="background-color: ${isLocked ? '#94a3b8' : char.color}">${i}</div>
+      <div class="opp-info">
+        <div class="opp-name">${isLocked ? 'Lawan Terkunci' : char.name}</div>
+        <div class="opp-title">${isLocked ? 'Kalahkan Lvl ' + (i-1) + ' dulu' : char.title + ' • ' + char.style}</div>
+      </div>
+      ${isLocked ? `<div class="opp-lock-icon">${SVGS.lock}</div>` : ''}
+    `;
 
-document.querySelectorAll('.lvl-btn').forEach(btn => {
-  btn.addEventListener('click', (e) => {
-    document.querySelectorAll('.lvl-btn').forEach(b => b.classList.remove('active'));
-    btn.classList.add('active');
-    currentAILevel = parseInt(btn.dataset.level);
-    document.getElementById('ai-lvl-desc').textContent = aiLevelDescriptions[currentAILevel];
-  });
-});
+    card.onclick = () => {
+      if (isLocked) { showToast('Lawan masih terkunci!'); return; }
+      currentAILevel = i;
+      renderLevelSelector();
+      updateChallengePanel();
+    };
+    container.appendChild(card);
+  }
+}
 
-// ==========================================
-// TOGGLE SETTINGS (AUTO / MANUAL)
-// ==========================================
+function updateChallengePanel() {
+  const char = aiCharacters[currentAILevel];
+  document.getElementById('char-quote').innerHTML = `<b>${char.name}:</b> ${char.desc}`;
+  document.getElementById('btn-challenge-name').textContent = char.name.toUpperCase();
+}
+
 function updateSowingUI() {
   const isAuto = sowingMode === 'auto';
   const txtLobby = document.getElementById('text-sow-lobby');
@@ -628,11 +637,16 @@ window.addEventListener('DOMContentLoaded', () => {
     myGlobalName = localStorage.getItem('mancala_p1_name') || '';
     const savedSow = localStorage.getItem('mancala_sowing');
     if (savedSow) sowingMode = savedSow;
+    maxUnlockedLevel = parseInt(localStorage.getItem('congklak_story_progress')) || 1;
+    if (maxUnlockedLevel > 5) maxUnlockedLevel = 5;
+    currentAILevel = maxUnlockedLevel;
   } catch(e) {}
   
   updateLobbyNameDisplay();
   setupGameRules(); 
   updateSowingUI();
+  renderLevelSelector();
+  updateChallengePanel();
 
   if (!myGlobalName) {
     document.getElementById('global-name-modal').classList.remove('hidden');
@@ -640,7 +654,7 @@ window.addEventListener('DOMContentLoaded', () => {
   }
 });
 
-// UI EVENT LISTENERS
+// EVENT LISTENERS MAIN MENU
 document.getElementById('btn-change-name').onclick = () => {
   const input = document.getElementById('input-global-name');
   if (input) input.value = myGlobalName || '';
@@ -660,44 +674,13 @@ document.getElementById('input-global-name').addEventListener('keydown', e => {
   if (e.key === 'Enter') document.getElementById('btn-save-global-name').click();
 });
 
-document.getElementById('btn-rules-lobby').onclick = () => document.getElementById('rules-modal').classList.remove('hidden');
-document.getElementById('rules-confirm').onclick = () => document.getElementById('rules-modal').classList.add('hidden');
-
-document.getElementById('btn-play-ai').onclick = () => {
-  startingPlayer = 1; 
-  startGame();
-};
-
-// ==========================================
-// BACKGROUND MUSIC
-// ==========================================
-let bgmTracks = []; let currentTrackIdx = 0; let bgmAudio = new Audio(); bgmAudio.volume = 0.25;
-
-async function initBGM() {
-  try {
-    const res = await fetch('https://itunes.apple.com/search?term=lofi+chill+beats+instrumental&entity=song&limit=50');
-    const data = await res.json();
-    let tracks = data.results.filter(t => t.previewUrl).map(t => t.previewUrl);
-    for (let i = tracks.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [tracks[i], tracks[j]] = [tracks[j], tracks[i]]; }
-    bgmTracks = tracks;
-  } catch(e) { }
-}
-function playBGM() {
-  if (bgmTracks.length === 0) return;
-  bgmAudio.src = bgmTracks[currentTrackIdx]; bgmAudio.play().catch(()=>{});
-  bgmAudio.onended = () => { currentTrackIdx = (currentTrackIdx + 1) % bgmTracks.length; playBGM(); };
-}
-document.addEventListener('click', () => { if (bgmAudio.paused && bgmTracks.length > 0) playBGM(); }, { once: true, capture: true });
-initBGM();
+document.getElementById('btn-goto-level-select').onclick = () => { showScreen('level-select'); };
+document.getElementById('btn-play-ai').onclick = () => { startingPlayer = 1; startGame(); };
 
 // ==========================================
 // PHYSICAL SEEDS SYSTEM
 // ==========================================
-let seedEntities = [];
-let seedLayouts = {};
-let pitElements = {};
-let pitRects = {};
-const SEED_SIZE = 14;
+let seedEntities = []; let seedLayouts = {}; let pitElements = {}; let pitRects = {}; const SEED_SIZE = 14;
 
 function generateSeedLayout(capacity = 100) {
   const layouts = []; const goldenAngle = 2.399963;
@@ -781,14 +764,18 @@ function buildBoard() {
   let topPits = P2_PITS.slice().reverse(); let bottomPits = P1_PITS; 
   let leftStoreIdx = P2_STORE; let rightStoreIdx = P1_STORE;
   
-  let topLblText = `AI LEVEL ${currentAILevel} ▲`; 
+  let topLblText = `${aiCharacters[currentAILevel].name.toUpperCase()} ▲`; 
   let bottomLblText = `▼ ${(myGlobalName || 'PLAYER 1').toUpperCase()}`;
 
   const storeLeftWrap = makeStore(leftStoreIdx, 2, storeW, storeH);
   const pitsCol = document.createElement('div'); pitsCol.className = 'pits-col';
   
   const topLbl = document.createElement('div'); topLbl.style.cssText = 'display:flex;justify-content:center;margin-bottom:2px;';
-  const topSpan = document.createElement('span'); topSpan.className = `player-label p2`; topSpan.textContent = topLblText;
+  const topSpan = document.createElement('span'); topSpan.className = `player-label p2`; 
+  topSpan.textContent = topLblText;
+  topSpan.style.color = aiCharacters[currentAILevel].color;
+  topSpan.style.borderColor = aiCharacters[currentAILevel].color;
+  topSpan.style.backgroundColor = aiCharacters[currentAILevel].color + '1a';
   topLbl.appendChild(topSpan); pitsCol.appendChild(topLbl);
 
   const topRow = document.createElement('div'); topRow.className = 'pits-row row-dim'; topRow.id = 'row-p2';
@@ -825,8 +812,8 @@ function makePit(index, size) {
 function makeStore(index, playerOwner, w, h) {
   const wrap = document.createElement('div'); wrap.className = 'store-wrap';
   const lbl = document.createElement('div'); lbl.className = 'store-label';
-  const pName = playerOwner === 1 ? (myGlobalName || `PLAYER 1`).toUpperCase() : `AI Lvl ${currentAILevel}`;
-  lbl.textContent = pName.length > 8 ? pName.slice(0,8) + '…' : pName;
+  const pName = playerOwner === 1 ? (myGlobalName || `PLAYER 1`).toUpperCase() : aiCharacters[currentAILevel].name.toUpperCase();
+  lbl.textContent = pName.length > 10 ? pName.slice(0,10) + '…' : pName;
   const cnt = document.createElement('div'); cnt.className = 'store-count'; cnt.id = `count-${index}`; cnt.textContent = '0';
   const store = document.createElement('div'); store.className = 'store'; store.id = `pit-${index}`;
   store.style.width = w + 'px'; store.style.height = h + 'px';
@@ -868,14 +855,12 @@ function updateClickability() {
     return;
   }
 
-  // Mode Manual: Sorot lubang target saja
   if (sowingMode === 'manual' && heldSeeds > 0) {
     const el = pitElements[currentSowPit];
     if (el) el.classList.add('clickable', 'target-pit');
     return;
   }
 
-  // Normal: Pilih lubang awal Player 1
   P1_PITS.forEach(i => {
     const el = pitElements[i]; if (!el) return;
     if (board[i] > 0) el.classList.add('clickable','p1-clickable');
@@ -911,7 +896,7 @@ function onPitClick(index) {
 }
 
 // ==========================================
-// AUTO SOWING
+// CORE SOWING LOGIC
 // ==========================================
 async function doMoveAuto(startIndex) {
   if (animating) return; animating = true; updateClickability(); cachePitRects(); 
@@ -989,7 +974,7 @@ async function doMoveAuto(startIndex) {
         const oppIndex = (TOTAL_PITS - 2) - curr;
         if (board[oppIndex] > 0) {
           const storeIdx = turn === 1 ? P1_STORE : P2_STORE;
-          const capName = turn === 1 ? 'KAMU' : 'AI';
+          const capName = turn === 1 ? 'KAMU' : aiCharacters[currentAILevel].name;
           updateTurnBadge(`${SVGS.zap} CAPTURE!`, turn === 1 ? 'p1' : 'p2');
           document.getElementById('turn-badge').classList.add('pulse'); setTimeout(() => document.getElementById('turn-badge')?.classList.remove('pulse'), 600);
           showToast(`${SVGS.zap} <span>${capName} menangkap biji!</span>`);
@@ -1011,9 +996,6 @@ async function doMoveAuto(startIndex) {
   finishTurn(extraTurn);
 }
 
-// ==========================================
-// MANUAL SOWING
-// ==========================================
 async function doMoveManual(index) {
   if (animating) return; animating = true; updateClickability(); cachePitRects();
 
@@ -1026,9 +1008,7 @@ async function doMoveManual(index) {
 
     await new Promise(resolve => {
       anime({
-        targets: movingSeedsArray,
-        x: () => pitRects[index].x - SEED_SIZE/2 + (Math.random()*16-8),
-        y: () => pitRects[index].y - SEED_SIZE/2 - 45 + (Math.random()*16-8),
+        targets: movingSeedsArray, x: () => pitRects[index].x - SEED_SIZE/2 + (Math.random()*16-8), y: () => pitRects[index].y - SEED_SIZE/2 - 45 + (Math.random()*16-8),
         scale: 1.3, duration: 350, easing: 'easeOutElastic(1, .8)',
         update: function() { movingSeedsArray.forEach(s => { s.el.style.transform = `translate(${s.x}px, ${s.y}px) scale(${s.scale})`; s.el.style.zIndex = '100'; }); },
         complete: resolve
@@ -1043,7 +1023,6 @@ async function doMoveManual(index) {
     return;
   }
 
-  // DROP BIJI SATU PER SATU
   let seedObj = movingSeedsArray.pop();
   if (seedObj) {
     seedObj.pit = currentSowPit; board[currentSowPit]++;
@@ -1052,35 +1031,25 @@ async function doMoveManual(index) {
 
     if (movingSeedsArray.length > 0) {
       anime({
-        targets: movingSeedsArray,
-        x: () => pitRects[currentSowPit].x - SEED_SIZE/2 + (Math.random()*16-8),
-        y: () => pitRects[currentSowPit].y - SEED_SIZE/2 - 45 + (Math.random()*16-8),
-        duration: 150, easing: 'easeInOutSine',
-        update: function() { movingSeedsArray.forEach(s => s.el.style.transform = `translate(${s.x}px, ${s.y}px) scale(${s.scale})`); }
+        targets: movingSeedsArray, x: () => pitRects[currentSowPit].x - SEED_SIZE/2 + (Math.random()*16-8), y: () => pitRects[currentSowPit].y - SEED_SIZE/2 - 45 + (Math.random()*16-8),
+        duration: 150, easing: 'easeInOutSine', update: function() { movingSeedsArray.forEach(s => s.el.style.transform = `translate(${s.x}px, ${s.y}px) scale(${s.scale})`); }
       });
     }
 
     await new Promise(resolve => {
       anime({
          targets: seedObj, x: targetPos.x, y: targetPos.y, scale: 1, duration: 250, easing: 'easeOutBounce',
-         update: function() { seedObj.el.style.transform = `translate(${seedObj.x}px, ${seedObj.y}px) scale(${seedObj.scale})`; },
-         complete: function() { seedObj.el.style.zIndex = '1'; resolve(); }
+         update: function() { seedObj.el.style.transform = `translate(${seedObj.x}px, ${seedObj.y}px) scale(${seedObj.scale})`; }, complete: function() { seedObj.el.style.zIndex = '1'; resolve(); }
       });
     });
-    heldSeeds--;
-    updateTurnBadge(heldSeeds > 0 ? `SISA: ${heldSeeds} BIJI` : `MENGEVALUASI...`, turn === 1 ? 'p1' : 'p2');
+    heldSeeds--; updateTurnBadge(heldSeeds > 0 ? `SISA: ${heldSeeds} BIJI` : `MENGEVALUASI...`, turn === 1 ? 'p1' : 'p2');
   }
 
-  if (heldSeeds > 0) {
-    currentSowPit = getNextValidPit(currentSowPit, turn);
-    animating = false; updateClickability(); return;
-  }
+  if (heldSeeds > 0) { currentSowPit = getNextValidPit(currentSowPit, turn); animating = false; updateClickability(); return; }
 
-  // BIJI HABIS: Cek aturan
   const curr = currentSowPit; 
   const activePitEl = pitElements[curr]; if (activePitEl) activePitEl.classList.add('active-pit');
-  await sleep(350);
-  if (activePitEl) activePitEl.classList.remove('active-pit');
+  await sleep(350); if (activePitEl) activePitEl.classList.remove('active-pit');
 
   let extraTurn = false;
   if ((turn === 1 && curr === P1_STORE) || (turn === 2 && curr === P2_STORE)) {
@@ -1088,20 +1057,14 @@ async function doMoveManual(index) {
   } else if (board[curr] > 1) {
     if (gameVariant === 'congklak') {
       updateTurnBadge(`${SVGS.refresh} RELAY!`, turn === 1 ? 'p1' : 'p2'); await sleep(200);
-      heldSeeds = board[curr]; board[curr] = 0; updateCounts();
-      movingSeedsArray = seedEntities.filter(s => s.pit === curr);
-      
+      heldSeeds = board[curr]; board[curr] = 0; updateCounts(); movingSeedsArray = seedEntities.filter(s => s.pit === curr);
       await new Promise(resolve => {
         anime({
-          targets: movingSeedsArray,
-          x: () => pitRects[curr].x - SEED_SIZE/2 + (Math.random()*16-8), y: () => pitRects[curr].y - SEED_SIZE/2 - 45 + (Math.random()*16-8),
-          scale: 1.3, duration: 350, easing: 'easeOutElastic(1, .8)',
-          update: function() { movingSeedsArray.forEach(s => { s.el.style.transform = `translate(${s.x}px, ${s.y}px) scale(${s.scale})`; s.el.style.zIndex = '100'; }); },
-          complete: resolve
+          targets: movingSeedsArray, x: () => pitRects[curr].x - SEED_SIZE/2 + (Math.random()*16-8), y: () => pitRects[curr].y - SEED_SIZE/2 - 45 + (Math.random()*16-8),
+          scale: 1.3, duration: 350, easing: 'easeOutElastic(1, .8)', update: function() { movingSeedsArray.forEach(s => { s.el.style.transform = `translate(${s.x}px, ${s.y}px) scale(${s.scale})`; s.el.style.zIndex = '100'; }); }, complete: resolve
         });
       });
-      currentSowPit = getNextValidPit(curr, turn);
-      animating = false; updateClickability(); return;
+      currentSowPit = getNextValidPit(curr, turn); animating = false; updateClickability(); return;
     }
   } else {
     const isOwnSide = (turn === 1 && P1_PITS.includes(curr)) || (turn === 2 && P2_PITS.includes(curr));
@@ -1109,14 +1072,11 @@ async function doMoveManual(index) {
       const oppIndex = (TOTAL_PITS - 2) - curr;
       if (board[oppIndex] > 0) {
         const storeIdx = turn === 1 ? P1_STORE : P2_STORE;
-        const capName = turn === 1 ? 'KAMU' : 'AI';
+        const capName = turn === 1 ? 'KAMU' : aiCharacters[currentAILevel].name;
         updateTurnBadge(`${SVGS.zap} CAPTURE!`, turn === 1 ? 'p1' : 'p2');
         document.getElementById('turn-badge').classList.add('pulse'); setTimeout(() => document.getElementById('turn-badge')?.classList.remove('pulse'), 600);
         showToast(`${SVGS.zap} <span>${capName} menangkap biji!</span>`);
-
-        let capSeeds = seedEntities.filter(s => s.pit === oppIndex || s.pit === curr);
-        board[oppIndex] = 0; board[curr] = 0; updateCounts();
-
+        let capSeeds = seedEntities.filter(s => s.pit === oppIndex || s.pit === curr); board[oppIndex] = 0; board[curr] = 0; updateCounts();
         const promises = [];
         capSeeds.forEach((seedObj, index) => {
           seedObj.pit = storeIdx; board[storeIdx]++;
@@ -1127,51 +1087,28 @@ async function doMoveManual(index) {
       }
     }
   }
-
-  heldSeeds = 0; currentSowPit = -1; movingSeedsArray = [];
-  finishTurn(extraTurn);
+  heldSeeds = 0; currentSowPit = -1; movingSeedsArray = []; finishTurn(extraTurn);
 }
 
 // ==========================================
-// AI ENGINE (MINIMAX ALPHA-BETA)
+// AI ENGINE
 // ==========================================
 function simEngineMove(boardState, startPit, playerTurn, isCongklak) {
-  let state = [...boardState];
-  let curr = startPit;
-  let seeds = state[curr];
-  state[curr] = 0;
-  let isRelay = true;
-  let extraTurn = false;
-
-  const myStore = playerTurn === 1 ? P1_STORE : P2_STORE;
-  const oppStore = playerTurn === 1 ? P2_STORE : P1_STORE;
-  const myPits = playerTurn === 1 ? P1_PITS : P2_PITS;
+  let state = [...boardState]; let curr = startPit; let seeds = state[curr]; state[curr] = 0;
+  let isRelay = true; let extraTurn = false;
+  const myStore = playerTurn === 1 ? P1_STORE : P2_STORE; const oppStore = playerTurn === 1 ? P2_STORE : P1_STORE; const myPits = playerTurn === 1 ? P1_PITS : P2_PITS;
 
   while (isRelay) {
     for (let i = 0; i < seeds; i++) {
-      curr = (curr + 1) % TOTAL_PITS;
-      if (curr === oppStore) curr = (curr + 1) % TOTAL_PITS;
-      state[curr]++;
+      curr = (curr + 1) % TOTAL_PITS; if (curr === oppStore) curr = (curr + 1) % TOTAL_PITS; state[curr]++;
     }
-    if (curr === myStore) {
-      extraTurn = true;
-      isRelay = false;
-    } else if (state[curr] > 1) {
-      if (isCongklak) {
-        seeds = state[curr];
-        state[curr] = 0;
-      } else {
-        isRelay = false;
-      }
-    } else {
+    if (curr === myStore) { extraTurn = true; isRelay = false; } 
+    else if (state[curr] > 1) { if (isCongklak) { seeds = state[curr]; state[curr] = 0; } else { isRelay = false; } } 
+    else {
       isRelay = false;
       if (myPits.includes(curr)) {
         let oppIndex = (TOTAL_PITS - 2) - curr;
-        if (state[oppIndex] > 0) {
-          state[myStore] += state[oppIndex] + state[curr];
-          state[oppIndex] = 0;
-          state[curr] = 0;
-        }
+        if (state[oppIndex] > 0) { state[myStore] += state[oppIndex] + state[curr]; state[oppIndex] = 0; state[curr] = 0; }
       }
     }
   }
@@ -1179,20 +1116,15 @@ function simEngineMove(boardState, startPit, playerTurn, isCongklak) {
 }
 
 function evaluateBoard(state) {
-  let aiScore = state[P2_STORE];
-  let p1Score = state[P1_STORE];
-  for (let i of P2_PITS) aiScore += state[i];
-  for (let i of P1_PITS) p1Score += state[i];
+  let aiScore = state[P2_STORE]; let p1Score = state[P1_STORE];
+  for (let i of P2_PITS) aiScore += state[i]; for (let i of P1_PITS) p1Score += state[i];
   return aiScore - p1Score;
 }
 
-function isGameEnd(state) {
-  return P1_PITS.every(i => state[i] === 0) || P2_PITS.every(i => state[i] === 0);
-}
+function isGameEnd(state) { return P1_PITS.every(i => state[i] === 0) || P2_PITS.every(i => state[i] === 0); }
 
 function minimax(state, depth, alpha, beta, isMaximizing, currentTurn, isCongklak) {
   if (depth === 0 || isGameEnd(state)) return evaluateBoard(state);
-
   let validMoves = (currentTurn === 1 ? P1_PITS : P2_PITS).filter(i => state[i] > 0);
   if (validMoves.length === 0) return evaluateBoard(state);
 
@@ -1201,9 +1133,7 @@ function minimax(state, depth, alpha, beta, isMaximizing, currentTurn, isCongkla
     for (let move of validMoves) {
       let sim = simEngineMove(state, move, 2, isCongklak);
       let ev = minimax(sim.state, depth - 1, alpha, beta, sim.nextTurn === 2, sim.nextTurn, isCongklak);
-      maxEval = Math.max(maxEval, ev);
-      alpha = Math.max(alpha, ev);
-      if (beta <= alpha) break;
+      maxEval = Math.max(maxEval, ev); alpha = Math.max(alpha, ev); if (beta <= alpha) break;
     }
     return maxEval;
   } else {
@@ -1211,9 +1141,7 @@ function minimax(state, depth, alpha, beta, isMaximizing, currentTurn, isCongkla
     for (let move of validMoves) {
       let sim = simEngineMove(state, move, 1, isCongklak);
       let ev = minimax(sim.state, depth - 1, alpha, beta, sim.nextTurn === 2, sim.nextTurn, isCongklak);
-      minEval = Math.min(minEval, ev);
-      beta = Math.min(beta, ev);
-      if (beta <= alpha) break;
+      minEval = Math.min(minEval, ev); beta = Math.min(beta, ev); if (beta <= alpha) break;
     }
     return minEval;
   }
@@ -1221,12 +1149,9 @@ function minimax(state, depth, alpha, beta, isMaximizing, currentTurn, isCongkla
 
 function getBestMoveAI(state, depth, isCongklak) {
   let validMoves = P2_PITS.filter(i => state[i] > 0);
-  if (validMoves.length === 0) return -1;
-  if (validMoves.length === 1) return validMoves[0];
-
-  validMoves = validMoves.sort(() => Math.random() - 0.5); // Randomize equal branches
-  let bestScore = -Infinity;
-  let bestMove = validMoves[0];
+  if (validMoves.length === 0) return -1; if (validMoves.length === 1) return validMoves[0];
+  validMoves = validMoves.sort(() => Math.random() - 0.5); 
+  let bestScore = -Infinity; let bestMove = validMoves[0];
 
   for (let move of validMoves) {
     let sim = simEngineMove(state, move, 2, isCongklak);
@@ -1238,31 +1163,28 @@ function getBestMoveAI(state, depth, isCongklak) {
 
 async function playAITurn() {
   if(!gameActive) return;
-  updateTurnBadge(`AI BERPIKIR...`, 'p2');
+  updateTurnBadge(`${aiCharacters[currentAILevel].name.toUpperCase()} BERPIKIR...`, 'p2');
   await sleep(700);
 
   let validMoves = P2_PITS.filter(i => board[i] > 0);
   let bestMove = validMoves[0];
   let isCongklak = gameVariant === 'congklak';
 
-  if (currentAILevel === 1) {
+  if (currentAILevel === 1) { // LEO (Random)
     bestMove = validMoves[Math.floor(Math.random() * validMoves.length)];
-  } else if (currentAILevel === 2) {
+  } else if (currentAILevel === 2) { // MAYA (Defensive/Safe)
     let found = false;
-    for(let m of validMoves) {
-      if(simEngineMove(board, m, 2, isCongklak).nextTurn === 2) { bestMove = m; found = true; break; }
-    }
+    for(let m of validMoves) { if(simEngineMove(board, m, 2, isCongklak).nextTurn === 2) { bestMove = m; found = true; break; } }
     if(!found) bestMove = validMoves[Math.floor(Math.random() * validMoves.length)];
-  } else if (currentAILevel === 3) {
-    bestMove = getBestMoveAI(board, 1, isCongklak); // Depth 1 (Greedy search)
-  } else if (currentAILevel === 4) {
-    bestMove = getBestMoveAI(board, 3, isCongklak); // Depth 3 (Medium forecasting)
-  } else if (currentAILevel === 5) {
-    let d = isCongklak ? 5 : 6; // Congklak relay creates deeper paths
-    bestMove = getBestMoveAI(board, d, isCongklak); // Depth 5/6 (Insane)
+  } else if (currentAILevel === 3) { // ZANE (Greedy/Aggressive - Depth 1)
+    bestMove = getBestMoveAI(board, 1, isCongklak); 
+  } else if (currentAILevel === 4) { // ELENA (Tactical - Depth 3)
+    bestMove = getBestMoveAI(board, 3, isCongklak); 
+  } else if (currentAILevel === 5) { // KAEL (Insane - Depth 5/6)
+    let d = isCongklak ? 5 : 6; bestMove = getBestMoveAI(board, d, isCongklak); 
   }
 
-  doMoveAuto(bestMove); // AI selalu jalan secara otomatis
+  doMoveAuto(bestMove);
 }
 
 // ==========================================
@@ -1270,8 +1192,8 @@ async function playAITurn() {
 // ==========================================
 async function finishTurn(extraTurn) {
   if (extraTurn) {
-    const bonusName = turn === 1 ? 'KAMU' : 'AI';
-    updateTurnBadge(`${SVGS.target} BONUS TURN — ${bonusName}!`, turn === 1 ? 'p1' : 'p2');
+    const bonusName = turn === 1 ? 'KAMU' : aiCharacters[currentAILevel].name;
+    updateTurnBadge(`${SVGS.target} BONUS TURN — ${bonusName.toUpperCase()}!`, turn === 1 ? 'p1' : 'p2');
     document.getElementById('turn-badge').classList.add('pulse'); setTimeout(() => document.getElementById('turn-badge')?.classList.remove('pulse'), 600);
     showToast(`${SVGS.target} <span>${bonusName} mendapat giliran bonus!</span>`);
     await sleep(900);
@@ -1281,7 +1203,7 @@ async function finishTurn(extraTurn) {
   if (!extraTurn) turn = turn === 1 ? 2 : 1;
 
   animating = false;
-  const tName = turn === 1 ? 'GILIRANMU' : `AI LEVEL ${currentAILevel}`;
+  const tName = turn === 1 ? 'GILIRANMU' : `GILIRAN ${aiCharacters[currentAILevel].name.toUpperCase()}`;
   updateTurnBadge(tName, turn === 1 ? 'p1' : 'p2');
   if (!extraTurn) { const badge = document.getElementById('turn-badge'); badge?.classList.add('pulse'); setTimeout(() => badge?.classList.remove('pulse'), 600); }
   updateClickability();
@@ -1290,8 +1212,7 @@ async function finishTurn(extraTurn) {
 }
 
 async function checkGameOver() {
-  const p1Empty = P1_PITS.every(i => board[i] === 0);
-  const p2Empty = P2_PITS.every(i => board[i] === 0);
+  const p1Empty = P1_PITS.every(i => board[i] === 0); const p2Empty = P2_PITS.every(i => board[i] === 0);
   if (!p1Empty && !p2Empty) return false;
 
   let sweepSeeds = [];
@@ -1301,92 +1222,69 @@ async function checkGameOver() {
   if (sweepSeeds.length > 0) {
     const promises = [];
     sweepSeeds.forEach((seedObj, index) => {
-      const storeIdx = P1_PITS.includes(seedObj.pit) ? P1_STORE : P2_STORE;
-      seedObj.pit = storeIdx;
+      const storeIdx = P1_PITS.includes(seedObj.pit) ? P1_STORE : P2_STORE; seedObj.pit = storeIdx;
       const targetPos = getPitTargetPosition(storeIdx, seedEntities.filter(s=>s.pit===storeIdx).length - 1);
       promises.push(new Promise(async res => { await sleep(index * 20); await animateSeedCapture(seedObj, targetPos); res(); }));
     });
     await Promise.all(promises); updateCounts();
   }
-
-  gameActive = false; animating = false;
-  setTimeout(() => showGameOver(), 600);
-  return true;
+  gameActive = false; animating = false; setTimeout(() => showGameOver(), 600); return true;
 }
 
 function showGameOver() {
-  const s1 = board[P1_STORE], s2 = board[P2_STORE];
-  const n1 = myGlobalName || 'PLAYER 1';
-  document.getElementById('go-title').textContent = s1 === s2 ? 'DRAW!' : (s1 > s2 ? 'KAMU MENANG!' : `AI MENANG!`);
+  const s1 = board[P1_STORE], s2 = board[P2_STORE]; const n1 = myGlobalName || 'PLAYER 1'; const aiName = aiCharacters[currentAILevel].name;
+
+  document.getElementById('go-title').textContent = s1 === s2 ? 'DRAW!' : (s1 > s2 ? 'KAMU MENANG!' : `${aiName.toUpperCase()} MENANG!`);
   document.getElementById('go-p1').textContent = s1; document.getElementById('go-p2').textContent = s2;
   const gn1 = document.getElementById('go-name-p1'); if (gn1) gn1.textContent = n1;
-  const gn2 = document.getElementById('go-name-p2'); if (gn2) gn2.textContent = `AI LEVEL ${currentAILevel}`;
+  const gn2 = document.getElementById('go-name-p2'); if (gn2) gn2.textContent = aiName;
   document.getElementById('gameover-modal').classList.remove('hidden');
 
-  // Trigger Hadiah jika Level 5 dimenangkan
-  if (s1 > s2 && currentAILevel === 5) {
-    setTimeout(() => { document.getElementById('reward-modal').classList.remove('hidden'); }, 1200);
+  if (s1 > s2) {
+    if (currentAILevel === maxUnlockedLevel && currentAILevel < 5) {
+      maxUnlockedLevel++;
+      try { localStorage.setItem('congklak_story_progress', maxUnlockedLevel); } catch(e) {}
+      showToast(`🏆 Level ${maxUnlockedLevel} Terbuka!`);
+      renderLevelSelector();
+    }
+    if (currentAILevel === 5) { setTimeout(() => { document.getElementById('reward-modal').classList.remove('hidden'); }, 1200); }
   }
 }
 
 function sleep(ms) { return new Promise(r => setTimeout(r, ms)); }
-
-let toastTimer;
-function showToast(htmlMsg) {
-  const el = document.getElementById('toast');
-  el.innerHTML = htmlMsg; el.classList.add('show');
-  clearTimeout(toastTimer);
-  toastTimer = setTimeout(() => el.classList.remove('show'), 2000);
+let toastTimer; function showToast(htmlMsg) {
+  const el = document.getElementById('toast'); el.innerHTML = htmlMsg; el.classList.add('show');
+  clearTimeout(toastTimer); toastTimer = setTimeout(() => el.classList.remove('show'), 2000);
 }
 
 function startGame() {
-  createBoard(); turn = startingPlayer; gameActive = true; animating = false; pitElements = {};
-  heldSeeds = 0; currentSowPit = -1; movingSeedsArray = [];
-
+  createBoard(); turn = startingPlayer; gameActive = true; animating = false; pitElements = {}; heldSeeds = 0; currentSowPit = -1; movingSeedsArray = [];
   const sn1 = document.getElementById('score-name-p1'); const sn2 = document.getElementById('score-name-p2');
   if (sn1) sn1.textContent = (myGlobalName || 'PLAYER 1').toUpperCase();
-  if (sn2) sn2.textContent = `AI LEVEL ${currentAILevel}`;
-
-  showScreen('game'); buildBoard();
+  if (sn2) { sn2.textContent = aiCharacters[currentAILevel].name.toUpperCase(); sn2.style.color = aiCharacters[currentAILevel].color; }
   
-  const starterName = startingPlayer === 1 ? 'GILIRANMU' : `AI MULAI DULU`;
+  showScreen('game'); buildBoard();
+  const starterName = startingPlayer === 1 ? 'GILIRANMU' : `${aiCharacters[currentAILevel].name.toUpperCase()} MULAI DULU`;
   updateTurnBadge(starterName, startingPlayer === 1 ? 'p1' : 'p2');
-  document.getElementById('gameover-modal').classList.add('hidden');
-  document.getElementById('reward-modal').classList.add('hidden');
+  document.getElementById('gameover-modal').classList.add('hidden'); document.getElementById('reward-modal').classList.add('hidden');
 
-  setTimeout(() => {
-    updateClickability();
-    if(turn === 2) playAITurn();
-  }, 300);
+  setTimeout(() => { updateClickability(); if(turn === 2) playAITurn(); }, 300);
 }
 
 function exitToMenu() {
-  gameActive = false; 
-  document.getElementById('seed-layer').innerHTML = ''; 
-  seedEntities = []; 
-  showScreen('lobby');
+  gameActive = false; document.getElementById('seed-layer').innerHTML = ''; seedEntities = []; showScreen('level-select');
 }
 
 function showScreen(id) {
-  ['lobby','game'].forEach(s => { document.getElementById(s)?.classList.toggle('hidden', s !== id); });
-  const fsBtn = document.getElementById('btn-fs-global');
-  if (fsBtn) fsBtn.style.display = (id === 'game') ? 'none' : 'inline-flex';
-  
-  const rulesBtn = document.getElementById('btn-rules-lobby');
-  if (rulesBtn) rulesBtn.style.display = (id === 'lobby') ? 'flex' : 'none';
+  ['main-menu','level-select','game'].forEach(s => { document.getElementById(s)?.classList.toggle('hidden', s !== id); });
+  const fsBtn = document.getElementById('btn-fs-global'); if (fsBtn) fsBtn.style.display = (id === 'game') ? 'none' : 'inline-flex';
 }
 
 function checkOrientation() {
   const isPortrait = window.innerHeight > window.innerWidth;
   document.getElementById('portrait-warn').classList.toggle('hidden', !isPortrait);
 }
-let resizeTimeout;
-window.addEventListener('resize', () => { 
-  checkOrientation(); 
-  clearTimeout(resizeTimeout);
-  resizeTimeout = setTimeout(() => { snapAllSeeds(); }, 150); 
-});
-checkOrientation();
+let resizeTimeout; window.addEventListener('resize', () => { checkOrientation(); clearTimeout(resizeTimeout); resizeTimeout = setTimeout(() => { snapAllSeeds(); }, 150); }); checkOrientation();
 
 document.getElementById('btn-menu').onclick = exitToMenu;
 document.getElementById('go-menu').onclick = () => { document.getElementById('gameover-modal').classList.add('hidden'); exitToMenu(); };
@@ -1394,8 +1292,7 @@ document.getElementById('go-rematch').onclick = () => { document.getElementById(
 
 function tryLandscape() {
   try { if (screen.orientation && screen.orientation.lock) screen.orientation.lock('landscape').catch(() => {}); } catch(e) {}
-  if (document.documentElement.requestFullscreen) document.documentElement.requestFullscreen().catch(()=>{});
-  else if (document.documentElement.webkitRequestFullscreen) document.documentElement.webkitRequestFullscreen();
+  if (document.documentElement.requestFullscreen) document.documentElement.requestFullscreen().catch(()=>{}); else if (document.documentElement.webkitRequestFullscreen) document.documentElement.webkitRequestFullscreen();
   try { localStorage.setItem('mancala_fs', '1'); } catch(e) {}
 }
 
@@ -1405,14 +1302,8 @@ function updateFsButton() {
   const btn2 = document.getElementById('btn-fs-game'); if (btn2) btn2.innerHTML = inFs ? SVGS.min : SVGS.max;
 }
 document.addEventListener('fullscreenchange', updateFsButton); document.addEventListener('webkitfullscreenchange', updateFsButton);
-
-const toggleFs = () => {
-  if (document.fullscreenElement || document.webkitFullscreenElement) {
-    if (document.exitFullscreen) document.exitFullscreen(); else if (document.webkitExitFullscreen) document.webkitExitFullscreen();
-  } else { tryLandscape(); }
-};
-document.getElementById('btn-fs-global').onclick = toggleFs; document.getElementById('btn-fs-game').onclick = toggleFs;
-document.getElementById('btn-force-landscape').onclick = () => tryLandscape();
+const toggleFs = () => { if (document.fullscreenElement || document.webkitFullscreenElement) { if (document.exitFullscreen) document.exitFullscreen(); else if (document.webkitExitFullscreen) document.webkitExitFullscreen(); } else { tryLandscape(); } };
+document.getElementById('btn-fs-global').onclick = toggleFs; document.getElementById('btn-fs-game').onclick = toggleFs; document.getElementById('btn-force-landscape').onclick = () => tryLandscape();
 try { if (localStorage.getItem('mancala_fs') === '1') { document.addEventListener('click', function autoFs() { if (!document.fullscreenElement) tryLandscape(); document.removeEventListener('click', autoFs); }, { once: true, capture: true }); } } catch(e) {}
 
 </script>

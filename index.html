@@ -15,19 +15,19 @@
     --bg-top:     #f4f7fb;
     --bg-bottom:  #e7edf6;
     --surface:    #ffffff;
-    --surface-2:  #f8fafc;
-    --line:       #e2e8f0;
-    --ink:        #1e293b;
-    --ink-soft:   #64748b;
-    --ink-faint:  #94a3b8;
-    --accent:     #3b82f6;
-    --accent-soft: rgba(59,130,246,0.10);
+    --surface-2:  #f6f8fb;
+    --line:       #e3e8f0;
+    --ink:        #1f2937;
+    --ink-soft:   #5b6675;
+    --ink-faint:  #9aa5b4;
+    --accent:     #2563eb;
+    --accent-soft: rgba(37,99,235,0.10);
     --emerald:    #10b981;
     --emerald-soft: rgba(16,185,129,0.12);
     --gold:       #f59e0b;
-    --shadow:     rgba(15, 23, 42, 0.08);
-    --pit-bg:     #f1f5f9;
-    --p1-color:   #3b82f6;
+    --shadow:     rgba(30,41,59,0.10);
+    --pit-bg:     #eef2f7;
+    --p1-color:   #2563eb;
     --p2-color:   #f43f5e;
   }
 
@@ -39,48 +39,52 @@
   }
 
   /* ===== SCREENS ===== */
-  .screen { position: fixed; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; z-index: 10; transition: opacity 0.3s, transform 0.3s; }
-  .screen.hidden { opacity: 0; pointer-events: none; transform: scale(0.98); z-index: -1; }
+  .screen { position: fixed; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; z-index: 10; transition: padding-top 0.3s; }
+  .screen.hidden { display: none; }
 
-  /* ===== LOBBY / MAIN MENU ===== */
-  #main-menu { background: radial-gradient(ellipse at 50% 0%, rgba(59,130,246,0.08) 0%, transparent 60%), linear-gradient(160deg, var(--bg-top) 0%, var(--bg-bottom) 100%); }
+  /* ===== LOBBY ===== */
+  #lobby { background: radial-gradient(ellipse at 50% 0%, rgba(37,99,235,0.06) 0%, transparent 55%), linear-gradient(160deg, var(--bg-top) 0%, var(--bg-bottom) 100%); }
   
   .lobby-title {
-    font-family: 'Poppins', sans-serif; font-size: clamp(28px, 6vh, 48px);
-    font-weight: 900; color: var(--ink); letter-spacing: 0.02em; margin-bottom: 8px;
+    font-family: 'Poppins', sans-serif;
+    font-size: clamp(22px, 6vh, 42px);
+    font-weight: 800; color: var(--ink);
+    letter-spacing: 0.04em; margin-bottom: 2px;
     background: linear-gradient(135deg, var(--ink) 0%, var(--accent) 100%);
     -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;
-    text-align: center; white-space: nowrap; filter: drop-shadow(0 4px 6px rgba(0,0,0,0.05));
+    text-align: center; white-space: nowrap;
   }
   
   .lobby-welcome {
     display: inline-flex; align-items: center; gap: 8px;
-    font-family: 'Inter', sans-serif; font-size: 13px; font-weight: 600;
+    font-family: 'Inter', sans-serif; font-size: 12px; font-weight: 600;
     color: var(--ink-soft); background: var(--surface);
-    padding: 8px 18px; border-radius: 999px; border: 1px solid var(--line);
-    margin-bottom: 28px; cursor: pointer; transition: all 0.2s;
-    box-shadow: 0 4px 12px var(--shadow);
+    padding: 6px 16px; border-radius: 999px; border: 1px solid var(--line);
+    margin-bottom: 12px; cursor: pointer; transition: all 0.2s;
+    box-shadow: 0 4px 12px rgba(30,41,59,0.03);
   }
-  .lobby-welcome:hover { background: var(--surface-2); color: var(--accent); border-color: #cbd5e1; transform: translateY(-2px); box-shadow: 0 6px 16px rgba(59,130,246,0.12); }
-  .lobby-welcome #lobby-display-name { font-weight: 800; color: var(--ink); }
+  .lobby-welcome:hover { background: var(--surface-2); color: var(--accent); border-color: #cdd5e1; transform: translateY(-2px); box-shadow: 0 6px 16px rgba(37,99,235,0.08); }
+  .lobby-welcome #lobby-display-name { font-weight: 700; color: var(--ink); }
 
-  .menu-card {
-    background: var(--surface); border: 1px solid var(--line); border-radius: 24px;
-    padding: 28px; width: min(420px, 90vw); display: flex; flex-direction: column; gap: 14px;
-    box-shadow: 0 24px 50px rgba(15,23,42,0.06), 0 4px 12px rgba(15,23,42,0.03);
+  .lobby-card {
+    background: var(--surface); border: 1px solid var(--line); border-radius: 20px;
+    padding: 16px 24px; width: min(440px, 90vw);
+    display: flex; flex-direction: column; gap: 12px;
+    box-shadow: 0 20px 50px var(--shadow), 0 2px 8px rgba(30,41,59,0.04);
+    transition: transform 0.3s;
   }
 
-  .variant-selector { display: flex; gap: 8px; background: var(--surface-2); padding: 6px; border-radius: 14px; border: 1px solid var(--line); }
+  .variant-selector { display: flex; gap: 8px; background: var(--surface-2); padding: 4px; border-radius: 12px; border: 1px solid var(--line); }
   .variant-btn {
-    flex: 1; padding: 12px 0; text-align: center; font-size: 13px; font-weight: 700;
-    color: var(--ink-soft); border-radius: 10px; cursor: pointer; transition: all 0.2s;
-    display: flex; align-items: center; justify-content: center; gap: 8px;
+    flex: 1; padding: 8px 0; text-align: center; font-size: 11px; font-weight: 700;
+    color: var(--ink-soft); border-radius: 8px; cursor: pointer; transition: all 0.2s;
+    display: flex; align-items: center; justify-content: center; gap: 6px;
   }
-  .variant-btn svg { width: 16px; height: 16px; opacity: 0.6; transition: opacity 0.2s; }
+  .variant-btn svg { width: 14px; height: 14px; opacity: 0.6; transition: opacity 0.2s; }
   .variant-btn.active { background: #ffffff; color: var(--accent); box-shadow: 0 4px 12px var(--shadow); }
   .variant-btn.active svg { opacity: 1; stroke: var(--accent); }
 
-  /* ===== LEVEL SELECT SCREEN (REDESIGNED) ===== */
+  /* ===== LEVEL SELECT SCREEN ===== */
   #level-select { background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%); }
   
   .level-header {
@@ -93,11 +97,8 @@
 
   .opponent-list {
     width: min(480px, 90vw); display: flex; flex-direction: column; gap: 12px;
-    max-height: 52vh; overflow-y: auto; padding-right: 8px; padding-bottom: 16px;
-    padding-left: 4px; /* Space for shadow */
+    max-height: 52vh; overflow-y: auto; padding-right: 8px; padding-bottom: 16px; padding-left: 4px; 
   }
-  
-  /* Custom Scrollbar for opponent list */
   .opponent-list::-webkit-scrollbar { width: 6px; }
   .opponent-list::-webkit-scrollbar-track { background: var(--line); border-radius: 10px; }
   .opponent-list::-webkit-scrollbar-thumb { background: var(--ink-faint); border-radius: 10px; }
@@ -116,14 +117,11 @@
     -webkit-mask-composite: xor; mask-composite: exclude; pointer-events: none;
     transition: all 0.3s ease;
   }
-  
   .opp-card:hover:not(.locked) { transform: translateY(-2px); box-shadow: 0 10px 20px rgba(15,23,42,0.06); }
   .opp-card:hover:not(.locked)::before { background: linear-gradient(135deg, #cbd5e1, #f8fafc); }
-  
   .opp-card.locked { opacity: 0.65; cursor: not-allowed; background: #f1f5f9; box-shadow: none; }
   .opp-card.locked::before { display: none; }
   .opp-card.locked .opp-avatar { filter: grayscale(100%); opacity: 0.5; }
-  
   .opp-card.active {
     background: linear-gradient(to right, #ffffff, #f0fdfa);
     box-shadow: 0 12px 25px rgba(16, 185, 129, 0.15);
@@ -149,167 +147,172 @@
   }
   .opp-quote { font-size: 13px; font-weight: 500; color: var(--ink-soft); font-style: italic; text-align: center; line-height: 1.4; padding: 0 10px; }
 
-  /* ===== BUTTONS & INPUTS ===== */
   .btn {
-    padding: 14px 24px; border-radius: 14px; border: none; cursor: pointer;
-    font-family: 'Inter', sans-serif; font-size: 14px; font-weight: 700; letter-spacing: 0.04em;
-    transition: transform 0.15s ease, box-shadow 0.2s ease, background 0.2s ease;
-    display: flex; align-items: center; justify-content: center; gap: 8px; width: 100%;
+    padding: 10px 20px; border-radius: 10px; border: none; cursor: pointer;
+    font-family: 'Inter', sans-serif; font-size: clamp(11px, 1.2vw, 13px);
+    font-weight: 700; letter-spacing: 0.04em; transition: transform 0.15s ease, box-shadow 0.2s ease, background 0.2s ease;
+    position: relative; overflow: hidden; display: flex; align-items: center; justify-content: center; gap: 8px;
   }
   .btn:active { transform: scale(0.97); }
-  .btn-primary { background: var(--accent); color: #ffffff; box-shadow: 0 8px 20px rgba(59,130,246,0.25); }
-  .btn-primary:hover { background: #2563eb; box-shadow: 0 10px 24px rgba(59,130,246,0.35); transform: translateY(-2px); }
-  .btn-gold { background: linear-gradient(135deg, var(--emerald), #059669); color: #ffffff; box-shadow: 0 8px 20px rgba(16,185,129,0.25); }
-  .btn-gold:hover { background: linear-gradient(135deg, #34d399, var(--emerald)); box-shadow: 0 10px 24px rgba(16,185,129,0.35); transform: translateY(-2px); }
+  .btn-primary { background: var(--accent); color: #ffffff; box-shadow: 0 8px 20px rgba(37,99,235,0.28); }
+  .btn-primary:hover { background: #1d4fd1; box-shadow: 0 10px 24px rgba(37,99,235,0.34); transform: translateY(-1px); }
+  .btn-gold { background: linear-gradient(135deg, var(--emerald), #0ea271); color: #ffffff; box-shadow: 0 8px 20px rgba(16,185,129,0.30); }
+  .btn-gold:hover { background: linear-gradient(135deg, #14c98a, var(--emerald)); box-shadow: 0 10px 24px rgba(16,185,129,0.36); transform: translateY(-1px); }
   .btn-outline { background: var(--surface); color: var(--ink-soft); border: 1px solid var(--line); }
-  .btn-outline:hover { background: var(--surface-2); border-color: #cbd5e1; color: var(--ink); }
+  .btn-outline:hover { background: var(--surface-2); border-color: #cdd5e1; color: var(--ink); }
 
   .input-field {
-    width: 100%; padding: 14px 18px; border-radius: 12px; border: 1px solid var(--line);
-    background: var(--surface-2); color: var(--ink); font-size: 15px; font-family: 'Inter', sans-serif;
-    outline: none; transition: border-color 0.2s, background 0.2s, box-shadow 0.2s;
+    width: 100%; padding: 10px 14px; border-radius: 10px; border: 1px solid var(--line);
+    background: var(--surface-2); color: var(--ink); font-size: 13px;
+    font-family: 'Inter', sans-serif; outline: none; transition: border-color 0.2s, background 0.2s;
   }
-  .input-field:focus { border-color: var(--accent); background: #ffffff; box-shadow: 0 0 0 4px var(--accent-soft); }
+  .input-field:focus { border-color: var(--accent); background: #ffffff; }
+  .input-field::placeholder { color: var(--ink-faint); }
 
-  .divider { display: flex; align-items: center; gap: 12px; color: var(--ink-faint); font-size: 11px; font-weight: 700; letter-spacing: 0.15em; margin: 6px 0; }
+  .divider { display: flex; align-items: center; gap: 12px; color: var(--ink-faint); font-size: 10px; font-weight: 600; letter-spacing: 0.2em; margin: 4px 0; }
   .divider::before, .divider::after { content:''; flex:1; height:1px; background: var(--line); }
 
   /* ===== LANDSCAPE WARNING ===== */
-  #portrait-warn { background: rgba(255,255,255,0.98); z-index: 100; gap: 16px; backdrop-filter: blur(10px); }
-  #portrait-warn svg { color: var(--accent); width: 72px; height: 72px; animation: rotate-hint 2s ease-in-out infinite; }
+  #portrait-warn { background: rgba(255,255,255,0.97); z-index: 100; gap: 16px; }
+  #portrait-warn svg { color: var(--accent); width: 64px; height: 64px; animation: rotate-hint 2s ease-in-out infinite; }
   @keyframes rotate-hint { 0%,100% { transform: rotate(0deg); } 50% { transform: rotate(90deg); } }
-  #portrait-warn h2 { font-family:'Poppins',sans-serif; color:var(--ink); font-size:22px; letter-spacing:0.06em; font-weight: 800; }
-  #portrait-warn p { color:var(--ink-soft); font-size:14px; font-weight: 500; }
+  #portrait-warn h2 { font-family:'Poppins',sans-serif; color:var(--ink); font-size:20px; letter-spacing:0.06em; font-weight: 700; }
+  #portrait-warn p { color:var(--ink-soft); font-size:13px; }
 
   /* ===== GAME SCREEN & BOARD ===== */
   #game { background: radial-gradient(ellipse at 50% 50%, #ffffff 0%, var(--bg-bottom) 100%); }
   .hud {
-    position: fixed; top: 0; left: 0; right: 0; height: 56px; display: flex; align-items: center; justify-content: space-between; padding: 0 24px;
-    z-index: 40; background: linear-gradient(to bottom, rgba(255,255,255,0.95), rgba(255,255,255,0)); backdrop-filter: blur(8px);
+    position: fixed; top: 0; left: 0; right: 0; height: 50px;
+    display: flex; align-items: center; justify-content: space-between; padding: 0 20px;
+    z-index: 40; background: linear-gradient(to bottom, rgba(255,255,255,0.9), rgba(255,255,255,0)); backdrop-filter: blur(6px);
   }
-  .hud-title { font-family: 'Poppins', sans-serif; font-size: 18px; font-weight: 800; color: var(--ink); letter-spacing: 0.08em; }
+  .hud-title { font-family: 'Poppins', sans-serif; font-size: 16px; font-weight: 800; color: var(--ink); letter-spacing: 0.08em; }
   .turn-badge {
-    padding: 8px 18px; border-radius: 999px; font-family: 'Inter', sans-serif; font-size: 12px; font-weight: 800; letter-spacing: 0.06em; transition: all 0.4s;
-    box-shadow: 0 4px 12px var(--shadow); display: flex; align-items: center; justify-content: center; gap: 8px; text-transform: uppercase;
+    padding: 6px 16px; border-radius: 999px; font-family: 'Inter', sans-serif;
+    font-size: 11px; font-weight: 700; letter-spacing: 0.06em; transition: all 0.4s;
+    box-shadow: 0 2px 8px var(--shadow); display: flex; align-items: center; justify-content: center; gap: 6px;
   }
-  .turn-badge svg { width: 16px; height: 16px; }
-  .turn-badge.p1 { background: var(--accent-soft); color: var(--accent); border: 1px solid rgba(59,130,246,0.25); }
-  .turn-badge.p2 { background: rgba(244,63,94,0.12); color: var(--p2-color); border: 1px solid rgba(244,63,94,0.25); }
+  .turn-badge svg { width: 14px; height: 14px; }
+  .turn-badge.p1 { background: var(--accent-soft); color: var(--accent); border: 1px solid rgba(37,99,235,0.25); }
+  .turn-badge.p2 { background: rgba(244,63,94,0.10); color: var(--p2-color); border: 1px solid rgba(244,63,94,0.25); }
   .turn-badge.neutral { background: var(--emerald-soft); color: var(--emerald); border: 1px solid rgba(16,185,129,0.25); }
   .turn-badge.pulse { animation: turn-pulse 0.6s ease; }
-  @keyframes turn-pulse { 0% { transform: scale(0.9); } 50% { transform: scale(1.08); } 100% { transform: scale(1); } }
+  @keyframes turn-pulse { 0% { transform: scale(0.9); } 50% { transform: scale(1.07); } 100% { transform: scale(1); } }
 
   .btn-sm {
-    padding: 10px 18px; font-size: 11px; border-radius: 10px; background: var(--surface); color: var(--ink-soft); border: 1px solid var(--line); cursor:pointer;
+    padding: 8px 16px; font-size: 10px; border-radius: 8px; background: var(--surface);
+    color: var(--ink-soft); border: 1px solid var(--line); cursor:pointer;
     font-family:'Inter',sans-serif; font-weight:700; letter-spacing:0.05em; transition: all 0.2s; box-shadow: 0 2px 8px var(--shadow);
   }
   .btn-sm:hover { background: var(--surface-2); color: var(--ink); transform: translateY(-1px); }
-  .btn-sm.icon-only { padding: 10px; display: inline-flex; align-items: center; justify-content: center; }
+  .btn-sm.icon-only { padding: 8px; display: inline-flex; align-items: center; justify-content: center; }
 
   .score-panel {
-    position: fixed; bottom: 0; left: 0; right: 0; height: 50px; display: flex; align-items: center; justify-content: center; gap: 36px;
-    background: linear-gradient(to top, rgba(255,255,255,0.95), rgba(255,255,255,0)); backdrop-filter: blur(8px); z-index: 40; pointer-events: none;
+    position: fixed; bottom: 0; left: 0; right: 0; height: 44px;
+    display: flex; align-items: center; justify-content: center; gap: 28px;
+    background: linear-gradient(to top, rgba(255,255,255,0.9), rgba(255,255,255,0)); backdrop-filter: blur(6px); z-index: 40; pointer-events: none;
   }
-  .score-item { display:flex; align-items:center; gap:10px; }
-  .score-label { font-size:12px; font-weight:800; letter-spacing:0.12em; text-transform:uppercase; }
+  .score-item { display:flex; align-items:center; gap:8px; }
+  .score-label { font-size:11px; font-weight:700; letter-spacing:0.12em; text-transform:uppercase; }
   .score-label.p1 { color: var(--p1-color); } .score-label.p2 { color: var(--p2-color); }
-  .score-num { font-family:'Poppins',sans-serif; font-size:24px; font-weight:800; color:var(--ink); transition: transform 0.25s ease; }
+  .score-num { font-family:'Poppins',sans-serif; font-size:20px; font-weight:800; color:var(--ink); transition: transform 0.25s ease; }
   .score-num.bump { animation: score-bump 0.35s ease; }
-  @keyframes score-bump { 0% { transform: scale(1); } 50% { transform: scale(1.4); color: var(--emerald); } 100% { transform: scale(1); } }
+  @keyframes score-bump { 0% { transform: scale(1); } 50% { transform: scale(1.35); color: var(--emerald); } 100% { transform: scale(1); } }
 
-  #board-wrap { position: fixed; inset: 56px 0 50px 0; display: flex; align-items: center; justify-content: center; }
+  #board-wrap { position: fixed; inset: 50px 0 44px 0; display: flex; align-items: center; justify-content: center; }
   .board {
-    position: relative; display: flex; flex-direction: row; align-items: center; justify-content: center; gap: 0; border-radius: 24px; padding: 10px 12px;
-    background: linear-gradient(160deg, rgba(255,255,255,0.9) 0%, rgba(255,255,255,0.6) 100%);
-    backdrop-filter: blur(20px); border: 1px solid rgba(255,255,255,0.7);
-    box-shadow: 0 24px 60px rgba(15,23,42,0.12), 0 4px 16px rgba(15,23,42,0.06), inset 0 1px 0 rgba(255,255,255,0.9);
+    position: relative; display: flex; flex-direction: row; align-items: center; justify-content: center;
+    gap: 0; border-radius: 20px; padding: 8px 10px;
+    background: linear-gradient(160deg, rgba(255,255,255,0.85) 0%, rgba(255,255,255,0.55) 100%);
+    backdrop-filter: blur(18px); border: 1px solid rgba(255,255,255,0.6);
+    box-shadow: 0 24px 60px rgba(30,41,59,0.12), 0 4px 16px rgba(30,41,59,0.06), inset 0 1px 0 rgba(255,255,255,0.9);
   }
-  .pits-col { display: flex; flex-direction: column; gap: 6px; flex: 1; margin: 0 12px; }
-  .pits-row { display: flex; flex-direction: row; gap: 8px; align-items: center; justify-content: space-around; padding: 0 4px; }
-  .pit-wrap { position: relative; display: flex; flex-direction: column; align-items: center; gap: 4px; }
+  .pits-col { display: flex; flex-direction: column; gap: 4px; flex: 1; margin: 0 10px; }
+  .pits-row { display: flex; flex-direction: row; gap: 6px; align-items: center; justify-content: space-around; padding: 0 4px; }
+  .pit-wrap { position: relative; display: flex; flex-direction: column; align-items: center; gap: 2px; }
   .pit { position: relative; border-radius: 50%; cursor: default; overflow: visible; transition: transform 0.15s ease, box-shadow 0.15s ease; }
   .pit-inner {
     position: absolute; inset: 0; border-radius: 50%;
-    background: radial-gradient(circle at 35% 28%, rgba(255,255,255,0.95) 0%, transparent 45%), radial-gradient(circle at 50% 60%, var(--pit-bg) 0%, #e2e8f0 100%);
-    box-shadow: inset 0 4px 12px rgba(15,23,42,0.10), inset 0 -2px 4px rgba(255,255,255,0.8), 0 1px 3px rgba(15,23,42,0.05);
-    border: 1px solid rgba(255,255,255,0.9); overflow: hidden;
+    background: radial-gradient(circle at 35% 28%, rgba(255,255,255,0.9) 0%, transparent 45%), radial-gradient(circle at 50% 60%, var(--pit-bg) 0%, #dde4ee 100%);
+    box-shadow: inset 0 4px 12px rgba(30,41,59,0.10), inset 0 -2px 4px rgba(255,255,255,0.7), 0 1px 2px rgba(30,41,59,0.05);
+    border: 1px solid rgba(255,255,255,0.8); overflow: hidden;
   }
   .pit.clickable { cursor: pointer; }
-  .pit.clickable:hover { transform: scale(1.08); }
-  .pit.clickable:hover .pit-inner { box-shadow: inset 0 4px 12px rgba(15,23,42,0.10), inset 0 -2px 4px rgba(255,255,255,0.8), 0 0 0 3px currentColor, 0 4px 12px rgba(15,23,42,0.12); }
+  .pit.clickable:hover { transform: scale(1.07); }
+  .pit.clickable:hover .pit-inner { box-shadow: inset 0 4px 12px rgba(30,41,59,0.10), inset 0 -2px 4px rgba(255,255,255,0.7), 0 0 0 3px currentColor, 0 4px 12px rgba(30,41,59,0.12); }
   .pit.p1-clickable { color: var(--p1-color); }
+  .pit.p2-clickable { color: var(--p2-color); }
   
+  /* GLOW FOR TARGET PIT (MANUAL MODE) */
   .target-pit .pit-inner, .target-pit .store-inner {
-    box-shadow: inset 0 4px 12px rgba(15,23,42,0.10), inset 0 -2px 4px rgba(255,255,255,0.8), 0 0 0 4px var(--gold), 0 0 20px rgba(245, 158, 11, 0.7) !important;
-    animation: pulse-target 1s ease-in-out infinite alternate; cursor: pointer !important;
+    box-shadow: inset 0 4px 12px rgba(30,41,59,0.10), inset 0 -2px 4px rgba(255,255,255,0.7), 0 0 0 4px var(--gold), 0 0 20px rgba(245, 158, 11, 0.65) !important;
+    animation: pulse-target 1s ease-in-out infinite alternate;
+    cursor: pointer !important;
   }
   @keyframes pulse-target { from { transform: scale(1); } to { transform: scale(1.1); } }
-  .pit.active-pit .pit-inner, .store.active-pit .store-inner { box-shadow: inset 0 4px 12px rgba(15,23,42,0.10), 0 0 0 3px var(--emerald), 0 0 16px rgba(16,185,129,0.5); }
+
+  .pit.active-pit .pit-inner, .store.active-pit .store-inner { box-shadow: inset 0 4px 12px rgba(30,41,59,0.10), 0 0 0 3px var(--emerald), 0 0 16px rgba(16,185,129,0.45); }
   .pit.active-pit, .store.active-pit { animation: pit-pop 0.35s ease; }
   
   .pit-count {
-    font-family: 'Poppins', serif; font-size: clamp(9px, 1.2vw, 12px); font-weight: 800; color: var(--ink-soft); background: var(--surface); border-radius: 999px;
-    padding: 2px 8px; min-width: 20px; text-align: center; border: 1px solid var(--line); pointer-events: none; box-shadow: 0 2px 6px var(--shadow);
+    font-family: 'Poppins', serif; font-size: clamp(8px, 1vw, 11px); font-weight: 700;
+    color: var(--ink-soft); background: var(--surface); border-radius: 999px;
+    padding: 0 6px; min-width: 18px; text-align: center; border: 1px solid var(--line);
+    pointer-events: none; box-shadow: 0 2px 6px var(--shadow);
   }
 
-  .store-wrap { display: flex; flex-direction: column; align-items: center; gap: 6px; }
+  .store-wrap { display: flex; flex-direction: column; align-items: center; gap: 4px; }
   .store { position: relative; border-radius: 40px; overflow: visible; transition: transform 0.15s ease, box-shadow 0.3s; }
   .store-inner {
     position: absolute; inset: 0; border-radius: 40px;
-    background: radial-gradient(ellipse at 40% 22%, rgba(255,255,255,0.95) 0%, transparent 50%), radial-gradient(ellipse at 50% 60%, var(--pit-bg) 0%, #e2e8f0 100%);
-    box-shadow: inset 0 6px 18px rgba(15,23,42,0.10), inset 0 -3px 6px rgba(255,255,255,0.8), 0 1px 4px rgba(15,23,42,0.05);
-    border: 1px solid rgba(255,255,255,0.9); overflow: hidden;
+    background: radial-gradient(ellipse at 40% 22%, rgba(255,255,255,0.9) 0%, transparent 50%), radial-gradient(ellipse at 50% 60%, var(--pit-bg) 0%, #dde4ee 100%);
+    box-shadow: inset 0 6px 18px rgba(30,41,59,0.10), inset 0 -3px 6px rgba(255,255,255,0.7), 0 1px 4px rgba(30,41,59,0.05);
+    border: 1px solid rgba(255,255,255,0.8); overflow: hidden;
   }
-  .store.active-store .store-inner { box-shadow: inset 0 6px 18px rgba(15,23,42,0.10), 0 0 0 3px var(--emerald), 0 0 24px rgba(16,185,129,0.4); }
-  .store-label { font-family: 'Inter', sans-serif; font-size: clamp(8px, 1vw, 10px); letter-spacing: 0.15em; text-transform: uppercase; font-weight: 800; color: var(--ink-faint); }
-  .store-count { font-family: 'Poppins', sans-serif; font-size: clamp(14px, 1.8vw, 18px); font-weight: 800; color: var(--ink); }
+  .store.active-store .store-inner { box-shadow: inset 0 6px 18px rgba(30,41,59,0.10), 0 0 0 3px var(--emerald), 0 0 24px rgba(16,185,129,0.35); }
+  .store-label { font-family: 'Inter', sans-serif; font-size: clamp(7px, 0.8vw, 9px); letter-spacing: 0.15em; text-transform: uppercase; font-weight: 700; color: var(--ink-faint); }
+  .store-count { font-family: 'Poppins', sans-serif; font-size: clamp(12px, 1.5vw, 16px); font-weight: 800; color: var(--ink); }
 
-  .player-label { font-family: 'Inter', sans-serif; font-size: clamp(9px, 1vw, 11px); font-weight: 800; letter-spacing: 0.15em; text-transform: uppercase; padding: 4px 10px; border-radius: 999px; }
-  .player-label.p1 { color: var(--p1-color); background: var(--accent-soft); border: 1px solid rgba(59,130,246,0.2); }
-  .player-label.p2 { color: var(--p2-color); background: rgba(244,63,94,0.12); border: 1px solid rgba(244,63,94,0.2); }
+  .player-label { font-family: 'Inter', sans-serif; font-size: clamp(8px, 1vw, 10px); font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase; padding: 2px 8px; border-radius: 999px; }
+  .player-label.p1 { color: var(--p1-color); background: var(--accent-soft); border: 1px solid rgba(37,99,235,0.2); }
+  .player-label.p2 { color: var(--p2-color); background: rgba(244,63,94,0.10); border: 1px solid rgba(244,63,94,0.2); }
   .row-dim { transition: opacity 0.4s; } .row-dim.dimmed { opacity: 0.4; pointer-events: none; }
 
   /* ===== PHYSICAL SEEDS LAYER ===== */
   #seed-layer { position: fixed; inset: 0; pointer-events: none; z-index: 45; }
   .physical-seed { position: absolute; top: 0; left: 0; width: 14px; height: 14px; border-radius: 50%; pointer-events: none; will-change: transform; }
 
-  /* ===== MODALS ===== */
-  .modal-overlay { position: fixed; inset: 0; background: rgba(15,23,42,0.4); backdrop-filter: blur(8px); display: flex; align-items: center; justify-content: center; z-index: 60; padding: 16px; transition: align-items 0.3s, padding-top 0.3s; }
+  /* ===== MODALS (SIDE-BY-SIDE INPUTS) ===== */
+  .modal-overlay { position: fixed; inset: 0; background: rgba(30,41,59,0.35); backdrop-filter: blur(8px); display: flex; align-items: center; justify-content: center; z-index: 60; padding: 16px; transition: align-items 0.3s, padding-top 0.3s; }
   .modal-overlay.hidden { display: none; }
   
-  .modal-box {
-    background: var(--surface); border: 1px solid var(--line); border-radius: 24px;
-    padding: 28px; text-align: center; min-width: min(400px, 92vw); max-width: 500px;
-    box-shadow: 0 32px 80px rgba(15,23,42,0.25); display: flex; flex-direction: column; gap: 14px;
-    animation: modal-in 0.3s ease; position: relative;
+  .name-modal-box {
+    background: var(--surface); border: 1px solid var(--line); border-radius: 20px;
+    padding: 16px 20px; text-align: center; min-width: min(380px, 92vw);
+    box-shadow: 0 32px 80px rgba(30,41,59,0.25); display: flex; flex-direction: column; gap: 10px;
+    animation: modal-in 0.3s ease;
   }
-  @keyframes modal-in { from { opacity: 0; transform: translateY(16px) scale(0.96); } to { opacity: 1; transform: translateY(0) scale(1); } }
+  @keyframes modal-in { from { opacity: 0; transform: translateY(12px) scale(0.97); } to { opacity: 1; transform: translateY(0) scale(1); } }
   
-  .modal-title { font-family: 'Poppins', sans-serif; font-size: 20px; font-weight: 800; color: var(--ink); letter-spacing: 0.02em; margin-bottom: 6px; text-align: left; }
-  .modal-close { position: absolute; top: 16px; right: 16px; width: 32px; height: 32px; border-radius: 50%; background: var(--surface-2); border: none; color: var(--ink-faint); cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.2s; }
-  .modal-close:hover { background: var(--line); color: var(--ink); transform: rotate(90deg); }
-
-  /* ===== TOAST ===== */
-  #toast {
-    position: fixed; top: 70px; left: 50%; transform: translateX(-50%) translateY(-10px);
-    background: var(--ink); color: #ffffff; padding: 10px 24px; border-radius: 999px;
-    font-size: 13px; font-weight: 700; letter-spacing: 0.06em;
-    z-index: 1000; pointer-events: none; opacity: 0; transition: opacity 0.3s ease, transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
-    white-space: nowrap; box-shadow: 0 10px 30px rgba(15,23,42,0.3); display: flex; align-items: center; gap: 8px;
+  .name-modal-title { font-family: 'Poppins', sans-serif; font-size: 15px; font-weight: 800; color: var(--ink); letter-spacing: 0.02em; margin-bottom: 2px; text-align: left; }
+  .name-row { display: flex; align-items: center; gap: 8px; width: 100%; }
+  
+  .name-avatar {
+    width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center;
+    font-family: 'Poppins', sans-serif; font-size: 12px; font-weight: 700; flex-shrink: 0;
   }
-  #toast svg { width: 16px; height: 16px; }
-  #toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+  .name-avatar.p1 { background: var(--accent-soft); color: var(--p1-color); border: 1px solid rgba(37,99,235,0.25); }
 
-  .btn-fs-global {
-    position: fixed; bottom: 20px; right: 20px; z-index: 20; padding: 10px 18px; border-radius: 14px;
-    border: 1px solid var(--line); background: var(--surface); color: var(--ink-soft); font-family: 'Inter', sans-serif; font-size: 12px; font-weight: 800; letter-spacing: 0.06em; cursor: pointer; transition: all 0.2s; box-shadow: 0 6px 20px var(--shadow); display: inline-flex; align-items: center; gap: 8px;
+  /* ===== RULES MODAL ===== */
+  .rules-box {
+    background: var(--surface); border: 1px solid var(--line); border-radius: 20px;
+    padding: 20px 24px; text-align: left; width: min(480px, 92vw); max-height: 90vh;
+    box-shadow: 0 32px 80px rgba(30,41,59,0.25); display: flex; flex-direction: column; gap: 8px;
+    animation: modal-in 0.3s ease;
   }
-  .btn-fs-global:hover { background: var(--surface-2); color: var(--ink); transform: translateY(-2px); box-shadow: 0 8px 25px rgba(15,23,42,0.12); }
-
-  #btn-rules-lobby {
-    position: fixed; top: 20px; right: 20px; width: 42px; height: 42px; border-radius: 50%; background: var(--surface); border: 1px solid var(--line); color: var(--ink-soft); display: flex; align-items: center; justify-content: center; cursor: pointer; box-shadow: 0 6px 20px var(--shadow); z-index: 20; transition: all 0.2s;
-  }
-  #btn-rules-lobby:hover { background: var(--surface-2); color: var(--accent); transform: scale(1.08); box-shadow: 0 8px 25px rgba(59,130,246,0.15); }
+  .rules-content { overflow-y: auto; padding-right: 8px; margin-bottom: 8px; }
+  .rules-content p, .rules-content li { font-size: 12px; line-height: 1.5; color: var(--ink-soft); }
+  .rules-content ol { padding-left: 20px; display: flex; flex-direction: column; gap: 6px; }
 
   /* ===== REWARD MODAL ===== */
   #reward-box {
@@ -324,6 +327,45 @@
   @keyframes rotate-reward { 100% { transform: rotate(360deg); } }
   #reward-box > * { position: relative; z-index: 1; }
 
+  /* ===== TOAST & BADGE ===== */
+  #toast {
+    position: fixed; top: 60px; left: 50%; transform: translateX(-50%) translateY(-8px);
+    background: var(--ink); color: #ffffff; padding: 9px 22px; border-radius: 999px;
+    font-size: 12px; font-weight: 700; letter-spacing: 0.06em;
+    z-index: 1000; pointer-events: none; opacity: 0; transition: opacity 0.3s ease, transform 0.3s ease;
+    white-space: nowrap; box-shadow: 0 8px 24px rgba(30,41,59,0.25); display: flex; align-items: center; gap: 6px;
+  }
+  #toast svg { width: 14px; height: 14px; }
+  #toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+  .btn-fs-global {
+    position: fixed; bottom: 16px; right: 16px; z-index: 20; padding: 8px 16px; border-radius: 12px;
+    border: 1px solid var(--line); background: var(--surface); color: var(--ink-soft);
+    font-family: 'Inter', sans-serif; font-size: 11px; font-weight: 700; letter-spacing: 0.06em;
+    cursor: pointer; transition: all 0.2s; box-shadow: 0 4px 14px var(--shadow); display: inline-flex; align-items: center; gap: 6px;
+  }
+  .btn-fs-global:hover { background: var(--surface-2); color: var(--ink); }
+
+  #btn-rules-lobby {
+    position: fixed; top: 16px; right: 16px; width: 36px; height: 36px; border-radius: 50%;
+    background: var(--surface); border: 1px solid var(--line); color: var(--ink-soft);
+    display: flex; align-items: center; justify-content: center; cursor: pointer;
+    box-shadow: 0 4px 14px var(--shadow); z-index: 20; transition: all 0.2s;
+  }
+  #btn-rules-lobby:hover { background: var(--surface-2); color: var(--accent); transform: scale(1.05); }
+
+  /* ===== KEYBOARD FIX ===== */
+  body.keyboard-open .modal-overlay { align-items: flex-start; padding-top: 5vh; }
+  body.keyboard-open #lobby { padding-top: 0; justify-content: flex-start; padding-top: 5vh; }
+
+  /* ===== MODAL CLOSE BTN ===== */
+  .modal-close {
+    position: absolute; top: 12px; right: 12px; width: 28px; height: 28px; border-radius: 50%;
+    background: var(--surface-2); border: none; color: var(--ink-faint); cursor: pointer;
+    display: flex; align-items: center; justify-content: center; transition: all 0.2s;
+  }
+  .modal-close:hover { background: var(--line); color: var(--ink); }
+
 </style>
 </head>
 <body>
@@ -333,33 +375,33 @@
   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z"/><circle cx="12" cy="17" r="1" fill="currentColor"/></svg>
   <h2>PUTAR KE LANDSCAPE</h2>
   <p>Game ini dirancang untuk mode landscape</p>
-  <button class="btn btn-outline" id="btn-force-landscape" style="width: auto; margin-top: 12px;">
-    <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 3H5a2 2 0 0 0-2 2v3"></path><path d="M21 8V5a2 2 0 0 0-2-2h-3"></path><path d="M3 16v3a2 2 0 0 0 2 2h3"></path><path d="M16 21h3a2 2 0 0 0 2-2v-3"></path></svg>
+  <button class="btn btn-outline" id="btn-force-landscape" style="width:auto; margin-top:12px;">
+    <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 3H5a2 2 0 0 0-2 2v3"></path><path d="M21 8V5a2 2 0 0 0-2-2h-3"></path><path d="M3 16v3a2 2 0 0 0 2 2h3"></path><path d="M16 21h3a2 2 0 0 0 2-2v-3"></path></svg>
     LANDSCAPE & FULLSCREEN
   </button>
 </div>
 
 <!-- LOBBY RULES BUTTON -->
 <button id="btn-rules-lobby" title="Cara Bermain">
-  <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>
+  <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>
 </button>
 
 <button class="btn-fs-global" id="btn-fs-global">
-  <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 3H5a2 2 0 0 0-2 2v3"></path><path d="M21 8V5a2 2 0 0 0-2-2h-3"></path><path d="M3 16v3a2 2 0 0 0 2 2h3"></path><path d="M16 21h3a2 2 0 0 0 2-2v-3"></path></svg>
+  <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 3H5a2 2 0 0 0-2 2v3"></path><path d="M21 8V5a2 2 0 0 0-2-2h-3"></path><path d="M3 16v3a2 2 0 0 0 2 2h3"></path><path d="M16 21h3a2 2 0 0 0 2-2v-3"></path></svg>
   FULLSCREEN
 </button>
 
 <!-- RULES MODAL -->
 <div id="rules-modal" class="modal-overlay hidden" style="z-index: 90;">
-  <div class="modal-box" style="text-align: left;">
-    <button class="modal-close" onclick="document.getElementById('rules-modal').classList.add('hidden')"><svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" stroke-width="2" fill="none"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg></button>
-    <div style="text-align: center; margin-bottom: 16px;">
-      <svg viewBox="0 0 24 24" width="36" height="36" fill="none" stroke="var(--emerald)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-bottom: 8px;"><circle cx="12" cy="12" r="10"></circle><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>
-      <div style="font-family: 'Poppins', sans-serif; font-size: 20px; font-weight: 800; color: var(--ink);">Panduan Bermain</div>
+  <div class="rules-box" style="position:relative;">
+    <button class="modal-close" onclick="document.getElementById('rules-modal').classList.add('hidden')"><svg viewBox="0 0 24 24" width="14" height="14" stroke="currentColor" stroke-width="2" fill="none"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg></button>
+    <div style="text-align: center;">
+      <svg viewBox="0 0 24 24" width="32" height="32" fill="none" stroke="var(--emerald)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-bottom: 4px;"><circle cx="12" cy="12" r="10"></circle><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>
+      <div style="font-family: 'Poppins', sans-serif; font-size: 18px; font-weight: 800; color: var(--ink);">Panduan Bermain</div>
     </div>
-    <div style="overflow-y: auto; max-height: 50vh; padding-right: 12px;">
-      <p style="font-size: 13px; color: var(--ink-soft); line-height: 1.6;">Setiap pemain memiliki deretan lubang di sisinya dan satu lumbung besar di ujung kanan.</p>
-      <ol style="font-size: 13px; color: var(--ink-soft); line-height: 1.6; padding-left: 20px; display: flex; flex-direction: column; gap: 8px; margin-top: 10px;">
+    <div class="rules-content">
+      <p>Setiap pemain memiliki deretan lubang di sisinya dan satu lumbung besar di ujung kanan.</p>
+      <ol>
         <li>Pada gilirannya, pilih satu lubang di sisi kamu untuk mengambil semua bijinya, lalu tabur berlawanan arah jarum jam.</li>
         <li>Biji <strong>tidak</strong> dimasukkan ke lumbung lawan.</li>
         <li>Jika biji terakhir jatuh di <strong>lumbung sendiri</strong>, kamu dapat <strong>giliran bonus</strong>.</li>
@@ -369,42 +411,43 @@
         <li>Permainan berakhir saat semua lubang di salah satu sisi kosong. Pemain dengan lumbung terbanyak menang.</li>
       </ol>
     </div>
-    <button class="btn btn-gold" onclick="document.getElementById('rules-modal').classList.add('hidden')" style="margin-top: 16px;">Saya Mengerti</button>
+    <button class="btn btn-gold" id="rules-confirm" style="width:100%;">Saya Mengerti</button>
   </div>
 </div>
 
-<!-- GLOBAL NAME MODAL -->
+<!-- GLOBAL NAME MODAL (P1) -->
 <div id="global-name-modal" class="modal-overlay hidden" style="z-index: 85;">
-  <div class="modal-box">
-    <div class="modal-title">SIAPA NAMAMU?</div>
-    <div style="display: flex; gap: 10px; align-items: center;">
-      <input class="input-field" id="input-global-name" placeholder="Ketik nama kamu..." maxlength="12" style="flex:1"/>
-      <button class="btn btn-primary" id="btn-save-global-name" style="width:auto;">SIMPAN</button>
+  <div class="name-modal-box">
+    <div class="name-modal-title">MASUKKAN NAMA KAMU</div>
+    <div class="name-row">
+      <div class="name-avatar p1">P1</div>
+      <input class="input-field" id="input-global-name" placeholder="Nama..." maxlength="12" style="flex:1"/>
+      <button class="btn btn-gold" id="btn-save-global-name" style="padding: 10px 18px; font-size:12px;">SIMPAN</button>
     </div>
   </div>
 </div>
 
 <!-- REWARD MODAL -->
 <div id="reward-modal" class="modal-overlay hidden" style="z-index: 100;">
-  <div class="modal-box" id="reward-box">
-    <div style="font-family: 'Poppins', sans-serif; font-size: 28px; font-weight: 900; color: #b45309; text-shadow: 0 2px 4px rgba(251,191,36,0.5);">🏆 LUAR BIASA! 🏆</div>
-    <p style="font-size: 14px; color: #92400e; font-weight: 700; margin-top: 8px;">Kamu berhasil menaklukkan Kael sang Grandmaster!</p>
-    <div style="font-size: 70px; margin: 20px 0; animation: bounce 2s infinite;">👑</div>
-    <p style="font-size: 13px; color: #78350f; font-weight: 500; margin-bottom: 20px; line-height: 1.5;">Kamu adalah Master sejati dari permainan ini. Strategi dan ketenanganmu tak tertandingi!</p>
-    <button class="btn btn-gold" onclick="document.getElementById('reward-modal').classList.add('hidden')">KLAIM GELAR & TUTUP</button>
+  <div class="name-modal-box" id="reward-box">
+    <div style="font-family: 'Poppins', sans-serif; font-size: 24px; font-weight: 900; color: #b45309; text-shadow: 0 2px 4px rgba(251,191,36,0.5);">🏆 LUAR BIASA! 🏆</div>
+    <p style="font-size: 13px; color: #92400e; font-weight: 600; margin-top: 5px;">Kamu berhasil menaklukkan Kael sang Grandmaster!</p>
+    <div style="font-size: 60px; margin: 15px 0; animation: bounce 2s infinite;">👑</div>
+    <p style="font-size: 12px; color: #78350f; font-weight: 500; margin-bottom: 15px;">Kamu adalah Master sejati dari permainan ini. Strategi dan ketenanganmu tak tertandingi!</p>
+    <button class="btn btn-gold" onclick="document.getElementById('reward-modal').classList.add('hidden')" style="width:100%;">KLAIM GELAR & TUTUP</button>
   </div>
 </div>
 
-<!-- SCREEN 1: LOBBY / MAIN MENU -->
-<div id="main-menu" class="screen">
-  <div class="lobby-title">CONGKLAK CHRONICLES</div>
+<!-- LOBBY -->
+<div id="lobby" class="screen">
+  <div class="lobby-title">CONGKLAK STORY MODE</div>
   
   <div class="lobby-welcome" id="btn-change-name" title="Ubah Nama">
-    <span>Player: <span id="lobby-display-name">—</span></span>
-    <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>
+    <span>Hi, <span id="lobby-display-name">—</span></span>
+    <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>
   </div>
 
-  <div class="menu-card">
+  <div class="lobby-card">
     <button class="btn btn-primary" id="btn-goto-level-select" style="padding: 18px; font-size: 16px;">
       <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
       MULAI STORY MODE
@@ -422,10 +465,11 @@
         Congklak (Relay)
       </div>
     </div>
-
-    <button class="btn btn-outline btn-icon" id="btn-toggle-sow-lobby" style="padding: 14px 16px;">
-      <svg id="icon-sow-lobby" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg>
-      <span id="text-sow-lobby" style="flex:1; text-align:left; font-size:13px;">Mode Tabur: Otomatis</span>
+    
+    <!-- PENGATURAN MODE TABUR (LOBBY) -->
+    <button class="btn btn-outline btn-icon" id="btn-toggle-sow-lobby" style="padding: 10px 14px;">
+      <svg id="icon-sow-lobby" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg>
+      <span id="text-sow-lobby" style="flex:1; text-align:left; font-size:12px;">Mode Tabur: Otomatis</span>
     </button>
   </div>
 </div>
@@ -434,7 +478,7 @@
 <div id="level-select" class="screen hidden">
   <div class="level-header">
     <div class="level-title">PILIH LAWAN</div>
-    <button class="btn-back" onclick="showScreen('main-menu')">
+    <button class="btn-back" onclick="showScreen('lobby')">
       <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
       Menu Utama
     </button>
@@ -446,24 +490,27 @@
 
   <div class="challenge-panel">
     <div class="opp-quote" id="char-quote">"Pilih lawanmu untuk melihat profilnya."</div>
-    <button class="btn btn-primary" id="btn-play-ai" style="padding: 16px; font-size: 15px;">
+    <button class="btn btn-primary" id="btn-play-ai" style="padding: 16px; font-size: 14px;">
       <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
       TANTANG <span id="btn-challenge-name" style="margin-left: 6px;">...</span>
     </button>
   </div>
 </div>
 
-<!-- SCREEN 3: GAME -->
+<!-- GAME -->
 <div id="game" class="screen hidden">
   <div class="hud">
     <div class="hud-title" id="in-game-title">MANCALA</div>
     <div class="turn-badge neutral" id="turn-badge">READY</div>
-    <div style="display:flex; gap:10px;">
+    <div style="display:flex; gap:8px;">
+      
+      <!-- PENGATURAN MODE TABUR (IN GAME) -->
       <button class="btn-sm icon-only" id="btn-toggle-sow-game" title="Ubah Mode Tabur">
-        <svg id="icon-sow-game" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg>
+        <svg id="icon-sow-game" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg>
       </button>
+
       <button class="btn-sm icon-only" id="btn-fs-game" title="Toggle Fullscreen">
-        <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 3H5a2 2 0 0 0-2 2v3"></path><path d="M21 8V5a2 2 0 0 0-2-2h-3"></path><path d="M3 16v3a2 2 0 0 0 2 2h3"></path><path d="M16 21h3a2 2 0 0 0 2-2v-3"></path></svg>
+        <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 3H5a2 2 0 0 0-2 2v3"></path><path d="M21 8V5a2 2 0 0 0-2-2h-3"></path><path d="M3 16v3a2 2 0 0 0 2 2h3"></path><path d="M16 21h3a2 2 0 0 0 2-2v-3"></path></svg>
       </button>
       <button class="btn-sm" id="btn-menu">MENYERAH</button>
     </div>
@@ -478,10 +525,10 @@
       <span class="score-label p1" id="score-name-p1">PLAYER 1</span>
       <span class="score-num" id="score-p1">0</span>
     </div>
-    <div style="width:2px;height:24px;background:var(--line);border-radius:2px;"></div>
+    <div style="width:1px;height:20px;background:var(--line)"></div>
     <div class="score-item">
       <span class="score-num" id="score-p2">0</span>
-      <span class="score-label p2" id="score-name-p2">Lawan</span>
+      <span class="score-label p2" id="score-name-p2">PLAYER 2</span>
     </div>
   </div>
 </div>
@@ -489,31 +536,34 @@
 <!-- PHYSICAL SEEDS LAYER -->
 <div id="seed-layer"></div>
 
+<!-- TOAST -->
+<div id="toast"></div>
+
 <!-- GAME OVER MODAL -->
 <div class="modal-overlay hidden" id="gameover-modal">
-  <div class="modal-box">
-    <div style="font-family:'Poppins',sans-serif; font-size:28px; font-weight:900; color:var(--ink); margin-bottom:6px;" id="go-title">GAME OVER</div>
-    <div style="color:var(--ink-soft); font-size:14px; font-weight: 600; margin-bottom:24px;" id="go-sub">Skor Akhir</div>
-    <div style="display:flex; gap:40px; justify-content:center; margin-bottom:28px;">
+  <div class="name-modal-box">
+    <div style="font-family:'Poppins',sans-serif; font-size:24px; font-weight:800; color:var(--ink); margin-bottom:4px;" id="go-title">GAME OVER</div>
+    <div style="color:var(--ink-soft); font-size:12px; margin-bottom:20px;" id="go-sub">Skor Akhir</div>
+    <div style="display:flex; gap:32px; justify-content:center; margin-bottom:20px;">
       <div style="text-align:center;">
-        <div style="font-family:'Poppins',sans-serif; font-size:42px; font-weight:900; color:var(--p1-color);" id="go-p1">0</div>
-        <div style="font-size:11px; letter-spacing:0.15em; text-transform:uppercase; color:var(--ink-soft); margin-top:4px; font-weight:800;" id="go-name-p1">Player 1</div>
+        <div style="font-family:'Poppins',sans-serif; font-size:36px; font-weight:800; color:var(--p1-color);" id="go-p1">0</div>
+        <div style="font-size:10px; letter-spacing:0.15em; text-transform:uppercase; color:var(--ink-faint); margin-top:2px; font-weight:700;" id="go-name-p1">Player 1</div>
       </div>
       <div style="text-align:center;">
-        <div style="font-family:'Poppins',sans-serif; font-size:42px; font-weight:900; color:var(--p2-color);" id="go-p2">0</div>
-        <div style="font-size:11px; letter-spacing:0.15em; text-transform:uppercase; color:var(--ink-soft); margin-top:4px; font-weight:800;" id="go-name-p2">AI</div>
+        <div style="font-family:'Poppins',sans-serif; font-size:36px; font-weight:800; color:var(--p2-color);" id="go-p2">0</div>
+        <div style="font-size:10px; letter-spacing:0.15em; text-transform:uppercase; color:var(--ink-faint); margin-top:2px; font-weight:700;" id="go-name-p2">Player 2</div>
       </div>
     </div>
-    <div style="display:flex;gap:16px;justify-content:center">
-      <button class="btn btn-gold" id="go-rematch" style="font-size:13px;padding:12px 28px;width:auto">ULANGI</button>
-      <button class="btn btn-outline" id="go-menu" style="font-size:13px;padding:12px 28px;width:auto">KEMBALI</button>
+    <div style="display:flex;gap:12px;justify-content:center">
+      <button class="btn btn-gold" id="go-rematch" style="font-size:12px;padding:10px 24px">ULANGI</button>
+      <button class="btn btn-outline" id="go-menu" style="font-size:12px;padding:10px 24px">MENU</button>
     </div>
   </div>
 </div>
 
 <script>
 // ==========================================
-// FIX KEYBOARD & INPUT FOCUS
+// KEYBOARD & INPUT FOCUS FIX
 // ==========================================
 document.querySelectorAll('.input-field').forEach(input => {
   input.addEventListener('focus', () => document.body.classList.add('keyboard-open'));
@@ -523,8 +573,8 @@ document.querySelectorAll('.input-field').forEach(input => {
 // ==========================================
 // CONSTANTS & DYNAMIC STATE
 // ==========================================
-let gameVariant = 'mancala'; 
-let sowingMode = 'auto';    
+let gameVariant = 'mancala'; // mancala / congklak
+let sowingMode = 'auto';    // Pengaturan personal: auto / manual
 
 let INITIAL_SEEDS = 4;
 let TOTAL_PITS = 14;
@@ -538,7 +588,7 @@ let startingPlayer = 1;
 let turn = 1;
 let gameActive = false;
 let animating = false;
-
+let playerNames = { 1: 'PLAYER 1', 2: 'PLAYER 2' };
 let myGlobalName = '';
 
 // MANUAL MODE VARIABLES
@@ -558,26 +608,31 @@ const aiCharacters = {
   5: { name: "Kael", title: "Grandmaster", style: "Sempurna (Insane)", desc: "\"Hanya sedikit yang bisa mencapaiku. Mari kita lihat apakah strategimu tanpa cela.\"", color: "#b45309" }
 };
 
+// PALET WARNA-WARNI PERMEN ACAK
 const ALL_SEED_COLORS = [
-  { base:'#2563EB', shine:'#BFDBFE', dark:'#1E3A8A' }, { base:'#0EA5E9', shine:'#BAE6FD', dark:'#075985' },
-  { base:'#6366F1', shine:'#C7D2FE', dark:'#3730A3' }, { base:'#F43F5E', shine:'#FECDD3', dark:'#9F1239' },
-  { base:'#F59E0B', shine:'#FDE68A', dark:'#92400E' }, { base:'#EC4899', shine:'#FBCFE8', dark:'#9D174D' },
-  { base:'#10B981', shine:'#A7F3D0', dark:'#065F46' }, { base:'#8B5CF6', shine:'#DDD6FE', dark:'#4C1D95' },
+  { base:'#2563EB', shine:'#BFDBFE', dark:'#1E3A8A' }, // Biru
+  { base:'#0EA5E9', shine:'#BAE6FD', dark:'#075985' }, // Cyan
+  { base:'#6366F1', shine:'#C7D2FE', dark:'#3730A3' }, // Indigo
+  { base:'#F43F5E', shine:'#FECDD3', dark:'#9F1239' }, // Pink
+  { base:'#F59E0B', shine:'#FDE68A', dark:'#92400E' }, // Emas
+  { base:'#EC4899', shine:'#FBCFE8', dark:'#9D174D' }, // Magenta
+  { base:'#10B981', shine:'#A7F3D0', dark:'#065F46' }, // Zamrud
+  { base:'#8B5CF6', shine:'#DDD6FE', dark:'#4C1D95' }, // Ungu
 ];
 
-// *BUG FIX: Menambahkan SVG yang hilang yang sebelumnya menyebabkan error 'undefined' di console dan membuat bot berhenti*
 const SVGS = {
   target: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><circle cx="12" cy="12" r="6"></circle><circle cx="12" cy="12" r="2"></circle></svg>',
   zap: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg>',
-  lock: '<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>',
-  hand: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 11V6a2 2 0 0 0-4 0v4a2 2 0 0 0-4 0v4a2 2 0 0 0-4 0v8a6 6 0 0 0 6 6h4a6 6 0 0 0 6-6v-7z"></path></svg>',
+  alert: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path><line x1="12" y1="9" x2="12" y2="13"></line><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>',
+  max: '<svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 3H5a2 2 0 0 0-2 2v3"></path><path d="M21 8V5a2 2 0 0 0-2-2h-3"></path><path d="M3 16v3a2 2 0 0 0 2 2h3"></path><path d="M16 21h3a2 2 0 0 0 2-2v-3"></path></svg>',
+  min: '<svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 3v3h-3"></path><path d="M16 3v3h3"></path><path d="M8 21v-3h-3"></path><path d="M16 21v-3h3"></path><path d="M3 8h3V5"></path><path d="M21 8h-3V5"></path><path d="M3 16h3v3"></path><path d="M21 16h-3v3"></path></svg>',
   refresh: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 4 23 10 17 10"></polyline><polyline points="1 20 1 14 7 14"></polyline><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"></path></svg>',
-  min: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 3v3a2 2 0 0 1-2 2H3m18 0h-3a2 2 0 0 1-2-2V3m0 18v-3a2 2 0 0 1 2-2h3M3 16h3a2 2 0 0 1 2 2v3"></path></svg>',
-  max: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18v-3a2 2 0 0 1 2-2h3M3 16h3a2 2 0 0 0-2 2v3"></path></svg>'
+  hand: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 11V6a2 2 0 0 0-4 0v4a2 2 0 0 0-4 0v4a2 2 0 0 0-4 0v8a6 6 0 0 0 6 6h4a6 6 0 0 0 6-6v-7z"></path></svg>',
+  lock: '<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>'
 };
 
 // ==========================================
-// RENDER UI & LEVEL SELECTOR
+// RENDER LEVEL SELECTOR
 // ==========================================
 function renderLevelSelector() {
   const container = document.getElementById('opponent-list-container');
@@ -615,6 +670,9 @@ function updateChallengePanel() {
   document.getElementById('btn-challenge-name').textContent = char.name.toUpperCase();
 }
 
+// ==========================================
+// TOGGLE SETTINGS (AUTO / MANUAL)
+// ==========================================
 function updateSowingUI() {
   const isAuto = sowingMode === 'auto';
   const txtLobby = document.getElementById('text-sow-lobby');
@@ -641,11 +699,6 @@ function toggleSowingMode() {
 
 document.getElementById('btn-toggle-sow-lobby').onclick = toggleSowingMode;
 document.getElementById('btn-toggle-sow-game').onclick = toggleSowingMode;
-
-// *BUG FIX: Tombol rules sekarang bisa diklik*
-document.getElementById('btn-rules-lobby').onclick = () => {
-  document.getElementById('rules-modal').classList.remove('hidden');
-};
 
 function setVariant(variant) {
   gameVariant = variant;
@@ -674,6 +727,7 @@ function updateLobbyNameDisplay() {
 window.addEventListener('DOMContentLoaded', () => {
   try {
     myGlobalName = localStorage.getItem('mancala_p1_name') || '';
+    if (myGlobalName) playerNames[1] = myGlobalName;
     const savedSow = localStorage.getItem('mancala_sowing');
     if (savedSow) sowingMode = savedSow;
     maxUnlockedLevel = parseInt(localStorage.getItem('congklak_story_progress')) || 1;
@@ -693,7 +747,7 @@ window.addEventListener('DOMContentLoaded', () => {
   }
 });
 
-// EVENT LISTENERS MAIN MENU
+// UI EVENT LISTENERS
 document.getElementById('btn-change-name').onclick = () => {
   const input = document.getElementById('input-global-name');
   if (input) input.value = myGlobalName || '';
@@ -704,6 +758,7 @@ document.getElementById('btn-change-name').onclick = () => {
 document.getElementById('btn-save-global-name').onclick = () => {
   const val = document.getElementById('input-global-name').value.trim();
   myGlobalName = val || 'Player 1';
+  playerNames[1] = myGlobalName;
   try { localStorage.setItem('mancala_p1_name', myGlobalName); } catch(e) {}
   document.getElementById('global-name-modal').classList.add('hidden');
   updateLobbyNameDisplay();
@@ -713,13 +768,42 @@ document.getElementById('input-global-name').addEventListener('keydown', e => {
   if (e.key === 'Enter') document.getElementById('btn-save-global-name').click();
 });
 
+document.getElementById('btn-rules-lobby').onclick = () => document.getElementById('rules-modal').classList.remove('hidden');
+document.getElementById('rules-confirm').onclick = () => document.getElementById('rules-modal').classList.add('hidden');
+
 document.getElementById('btn-goto-level-select').onclick = () => { showScreen('level-select'); };
 document.getElementById('btn-play-ai').onclick = () => { startingPlayer = 1; startGame(); };
 
 // ==========================================
+// BACKGROUND MUSIC
+// ==========================================
+let bgmTracks = []; let currentTrackIdx = 0; let bgmAudio = new Audio(); bgmAudio.volume = 0.25;
+
+async function initBGM() {
+  try {
+    const res = await fetch('https://itunes.apple.com/search?term=lofi+chill+beats+instrumental&entity=song&limit=50');
+    const data = await res.json();
+    let tracks = data.results.filter(t => t.previewUrl).map(t => t.previewUrl);
+    for (let i = tracks.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [tracks[i], tracks[j]] = [tracks[j], tracks[i]]; }
+    bgmTracks = tracks;
+  } catch(e) { }
+}
+function playBGM() {
+  if (bgmTracks.length === 0) return;
+  bgmAudio.src = bgmTracks[currentTrackIdx]; bgmAudio.play().catch(()=>{});
+  bgmAudio.onended = () => { currentTrackIdx = (currentTrackIdx + 1) % bgmTracks.length; playBGM(); };
+}
+document.addEventListener('click', () => { if (bgmAudio.paused && bgmTracks.length > 0) playBGM(); }, { once: true, capture: true });
+initBGM();
+
+// ==========================================
 // PHYSICAL SEEDS SYSTEM
 // ==========================================
-let seedEntities = []; let seedLayouts = {}; let pitElements = {}; let pitRects = {}; const SEED_SIZE = 14;
+let seedEntities = [];
+let seedLayouts = {};
+let pitElements = {};
+let pitRects = {};
+const SEED_SIZE = 14;
 
 function generateSeedLayout(capacity = 100) {
   const layouts = []; const goldenAngle = 2.399963;
@@ -789,13 +873,13 @@ function buildBoard() {
   const board_el = document.createElement('div'); board_el.className = 'board';
 
   const vw = window.innerWidth, vh = window.innerHeight;
-  const availH = vh - 106; const availW = vw * 0.94;
-  const GAP = 8; const STORE_RATIO = 1.25; const STORE_H_RATIO = 2.0; const BOARD_PAD = 14; const STORE_MARGIN = 12;
+  const availH = vh - 90; const availW = vw * 0.94;
+  const GAP = 6; const STORE_RATIO = 1.2; const STORE_H_RATIO = 2.0; const BOARD_PAD = 12; const STORE_MARGIN = 8;
   const numPitsRow = P1_PITS.length;
 
   const pitSizeW = Math.floor((availW - 2*BOARD_PAD - 2*STORE_MARGIN - (numPitsRow-1)*GAP) / (numPitsRow + 2*STORE_RATIO));
-  const pitSizeH = Math.floor((availH - 2*BOARD_PAD - 28) / 2);
-  const pitSize = Math.max(36, Math.min(pitSizeW, pitSizeH));
+  const pitSizeH = Math.floor((availH - 2*BOARD_PAD - 24) / 2);
+  const pitSize = Math.max(32, Math.min(pitSizeW, pitSizeH));
   const storeW = Math.floor(pitSize * STORE_RATIO); const storeH = Math.min(Math.floor(pitSize * STORE_H_RATIO), availH - 30);
 
   for (let i = 0; i < TOTAL_PITS; i++) seedLayouts[i] = generateSeedLayout(100);
@@ -804,14 +888,13 @@ function buildBoard() {
   let leftStoreIdx = P2_STORE; let rightStoreIdx = P1_STORE;
   
   let topLblText = `${aiCharacters[currentAILevel].name.toUpperCase()} ▲`; 
-  let bottomLblText = `▼ ${(myGlobalName || 'PLAYER 1').toUpperCase()}`;
+  let bottomLblText = `▼ ${(playerNames[1] || 'PLAYER 1').toUpperCase()}`;
 
   const storeLeftWrap = makeStore(leftStoreIdx, 2, storeW, storeH);
   const pitsCol = document.createElement('div'); pitsCol.className = 'pits-col';
   
   const topLbl = document.createElement('div'); topLbl.style.cssText = 'display:flex;justify-content:center;margin-bottom:2px;';
-  const topSpan = document.createElement('span'); topSpan.className = `player-label p2`; 
-  topSpan.textContent = topLblText;
+  const topSpan = document.createElement('span'); topSpan.className = `player-label p2`; topSpan.textContent = topLblText;
   topSpan.style.color = aiCharacters[currentAILevel].color;
   topSpan.style.borderColor = aiCharacters[currentAILevel].color;
   topSpan.style.backgroundColor = aiCharacters[currentAILevel].color + '1a';
@@ -851,8 +934,8 @@ function makePit(index, size) {
 function makeStore(index, playerOwner, w, h) {
   const wrap = document.createElement('div'); wrap.className = 'store-wrap';
   const lbl = document.createElement('div'); lbl.className = 'store-label';
-  const pName = playerOwner === 1 ? (myGlobalName || `PLAYER 1`).toUpperCase() : aiCharacters[currentAILevel].name.toUpperCase();
-  lbl.textContent = pName.length > 10 ? pName.slice(0,10) + '…' : pName;
+  const pName = playerOwner === 1 ? (playerNames[1] || 'PLAYER 1').toUpperCase() : aiCharacters[currentAILevel].name.toUpperCase();
+  lbl.textContent = pName.length > 6 ? pName.slice(0,6) + '…' : pName;
   const cnt = document.createElement('div'); cnt.className = 'store-count'; cnt.id = `count-${index}`; cnt.textContent = '0';
   const store = document.createElement('div'); store.className = 'store'; store.id = `pit-${index}`;
   store.style.width = w + 'px'; store.style.height = h + 'px';
@@ -888,25 +971,25 @@ function updateClickability() {
   if (!gameActive || animating) { removeAllHighlights(); return; }
   removeAllHighlights();
 
-  if (turn === 2) {
-    const rowP1 = document.getElementById('row-p1'); const rowP2 = document.getElementById('row-p2');
-    if (rowP1 && rowP2) { rowP1.classList.add('dimmed'); rowP2.classList.remove('dimmed'); }
-    return;
-  }
-
+  // Mode Manual: Sorot lubang target saja
   if (sowingMode === 'manual' && heldSeeds > 0) {
-    const el = pitElements[currentSowPit];
-    if (el) el.classList.add('clickable', 'target-pit');
+    if (turn === 1) {
+      const el = pitElements[currentSowPit];
+      if (el) el.classList.add('clickable', 'target-pit');
+    }
     return;
   }
 
-  P1_PITS.forEach(i => {
-    const el = pitElements[i]; if (!el) return;
-    if (board[i] > 0) el.classList.add('clickable','p1-clickable');
-  });
+  // Normal: Pilih lubang awal
+  if (turn === 1) {
+    P1_PITS.forEach(i => {
+      const el = pitElements[i]; if (!el) return;
+      if (board[i] > 0) el.classList.add('clickable','p1-clickable');
+    });
+  }
   
   const rowP1 = document.getElementById('row-p1'); const rowP2 = document.getElementById('row-p2');
-  if (rowP1 && rowP2) { rowP1.classList.remove('dimmed'); rowP2.classList.add('dimmed'); }
+  if (rowP1 && rowP2) { rowP1.classList.toggle('dimmed', turn !== 1); rowP2.classList.toggle('dimmed', turn !== 2); }
 }
 
 function updateTurnBadge(htmlMsg, cls = 'neutral') {
@@ -922,20 +1005,23 @@ function getNextValidPit(curr, activeTurn) {
 }
 
 function onPitClick(index) {
-  if (!gameActive || animating || turn !== 1) return;
+  if (!gameActive || animating) return;
 
   if (sowingMode === 'manual' && heldSeeds > 0) {
     if (index !== currentSowPit) return; 
     doMoveManual(index);
   } else {
-    if (!P1_PITS.includes(index) || board[index] === 0) return;
+    if (turn !== 1) return; 
+    if (!P1_PITS.includes(index)) return; 
+    if (board[index] === 0) return;
+
     if (sowingMode === 'auto') doMoveAuto(index);
     else doMoveManual(index);
   }
 }
 
 // ==========================================
-// CORE SOWING LOGIC
+// AUTO SOWING (Persis spt index 5 yg sudah matang)
 // ==========================================
 async function doMoveAuto(startIndex) {
   if (animating) return; animating = true; updateClickability(); cachePitRects(); 
@@ -983,7 +1069,7 @@ async function doMoveAuto(startIndex) {
       }
 
       let seedObj = movingSeeds.pop(); 
-      if(!seedObj) break; // BUG FIX: Failsafe jika jumlah seed virtual dan visual tidak sync saat animasi cepat
+      if(!seedObj) break; 
       
       seedObj.pit = curr; board[curr]++;
       const targetPos = getPitTargetPosition(curr, board[curr] - 1);
@@ -1013,7 +1099,7 @@ async function doMoveAuto(startIndex) {
         const oppIndex = (TOTAL_PITS - 2) - curr;
         if (board[oppIndex] > 0) {
           const storeIdx = turn === 1 ? P1_STORE : P2_STORE;
-          const capName = turn === 1 ? 'KAMU' : aiCharacters[currentAILevel].name;
+          const capName = turn === 1 ? 'KAMU' : aiCharacters[currentAILevel].name.toUpperCase();
           updateTurnBadge(`${SVGS.zap} CAPTURE!`, turn === 1 ? 'p1' : 'p2');
           document.getElementById('turn-badge').classList.add('pulse'); setTimeout(() => document.getElementById('turn-badge')?.classList.remove('pulse'), 600);
           showToast(`${SVGS.zap} <span>${capName} menangkap biji!</span>`);
@@ -1035,6 +1121,9 @@ async function doMoveAuto(startIndex) {
   finishTurn(extraTurn);
 }
 
+// ==========================================
+// MANUAL SOWING (Persis spt index 5 yg sudah matang)
+// ==========================================
 async function doMoveManual(index) {
   if (animating) return; animating = true; updateClickability(); cachePitRects();
 
@@ -1047,7 +1136,9 @@ async function doMoveManual(index) {
 
     await new Promise(resolve => {
       anime({
-        targets: movingSeedsArray, x: () => pitRects[index].x - SEED_SIZE/2 + (Math.random()*16-8), y: () => pitRects[index].y - SEED_SIZE/2 - 45 + (Math.random()*16-8),
+        targets: movingSeedsArray,
+        x: () => pitRects[index].x - SEED_SIZE/2 + (Math.random()*16-8),
+        y: () => pitRects[index].y - SEED_SIZE/2 - 45 + (Math.random()*16-8),
         scale: 1.3, duration: 350, easing: 'easeOutElastic(1, .8)',
         update: function() { movingSeedsArray.forEach(s => { s.el.style.transform = `translate(${s.x}px, ${s.y}px) scale(${s.scale})`; s.el.style.zIndex = '100'; }); },
         complete: resolve
@@ -1062,6 +1153,7 @@ async function doMoveManual(index) {
     return;
   }
 
+  // DROP BIJI SATU PER SATU
   let seedObj = movingSeedsArray.pop();
   if (seedObj) {
     seedObj.pit = currentSowPit; board[currentSowPit]++;
@@ -1070,25 +1162,35 @@ async function doMoveManual(index) {
 
     if (movingSeedsArray.length > 0) {
       anime({
-        targets: movingSeedsArray, x: () => pitRects[currentSowPit].x - SEED_SIZE/2 + (Math.random()*16-8), y: () => pitRects[currentSowPit].y - SEED_SIZE/2 - 45 + (Math.random()*16-8),
-        duration: 150, easing: 'easeInOutSine', update: function() { movingSeedsArray.forEach(s => s.el.style.transform = `translate(${s.x}px, ${s.y}px) scale(${s.scale})`); }
+        targets: movingSeedsArray,
+        x: () => pitRects[currentSowPit].x - SEED_SIZE/2 + (Math.random()*16-8),
+        y: () => pitRects[currentSowPit].y - SEED_SIZE/2 - 45 + (Math.random()*16-8),
+        duration: 150, easing: 'easeInOutSine',
+        update: function() { movingSeedsArray.forEach(s => s.el.style.transform = `translate(${s.x}px, ${s.y}px) scale(${s.scale})`); }
       });
     }
 
     await new Promise(resolve => {
       anime({
          targets: seedObj, x: targetPos.x, y: targetPos.y, scale: 1, duration: 250, easing: 'easeOutBounce',
-         update: function() { seedObj.el.style.transform = `translate(${seedObj.x}px, ${seedObj.y}px) scale(${seedObj.scale})`; }, complete: function() { seedObj.el.style.zIndex = '1'; resolve(); }
+         update: function() { seedObj.el.style.transform = `translate(${seedObj.x}px, ${seedObj.y}px) scale(${seedObj.scale})`; },
+         complete: function() { seedObj.el.style.zIndex = '1'; resolve(); }
       });
     });
-    heldSeeds--; updateTurnBadge(heldSeeds > 0 ? `SISA: ${heldSeeds} BIJI` : `MENGEVALUASI...`, turn === 1 ? 'p1' : 'p2');
+    heldSeeds--;
+    updateTurnBadge(heldSeeds > 0 ? `SISA: ${heldSeeds} BIJI` : `MENGEVALUASI...`, turn === 1 ? 'p1' : 'p2');
   }
 
-  if (heldSeeds > 0) { currentSowPit = getNextValidPit(currentSowPit, turn); animating = false; updateClickability(); return; }
+  if (heldSeeds > 0) {
+    currentSowPit = getNextValidPit(currentSowPit, turn);
+    animating = false; updateClickability(); return;
+  }
 
+  // BIJI HABIS: Cek aturan
   const curr = currentSowPit; 
   const activePitEl = pitElements[curr]; if (activePitEl) activePitEl.classList.add('active-pit');
-  await sleep(350); if (activePitEl) activePitEl.classList.remove('active-pit');
+  await sleep(350);
+  if (activePitEl) activePitEl.classList.remove('active-pit');
 
   let extraTurn = false;
   if ((turn === 1 && curr === P1_STORE) || (turn === 2 && curr === P2_STORE)) {
@@ -1096,14 +1198,20 @@ async function doMoveManual(index) {
   } else if (board[curr] > 1) {
     if (gameVariant === 'congklak') {
       updateTurnBadge(`${SVGS.refresh} RELAY!`, turn === 1 ? 'p1' : 'p2'); await sleep(200);
-      heldSeeds = board[curr]; board[curr] = 0; updateCounts(); movingSeedsArray = seedEntities.filter(s => s.pit === curr);
+      heldSeeds = board[curr]; board[curr] = 0; updateCounts();
+      movingSeedsArray = seedEntities.filter(s => s.pit === curr);
+      
       await new Promise(resolve => {
         anime({
-          targets: movingSeedsArray, x: () => pitRects[curr].x - SEED_SIZE/2 + (Math.random()*16-8), y: () => pitRects[curr].y - SEED_SIZE/2 - 45 + (Math.random()*16-8),
-          scale: 1.3, duration: 350, easing: 'easeOutElastic(1, .8)', update: function() { movingSeedsArray.forEach(s => { s.el.style.transform = `translate(${s.x}px, ${s.y}px) scale(${s.scale})`; s.el.style.zIndex = '100'; }); }, complete: resolve
+          targets: movingSeedsArray,
+          x: () => pitRects[curr].x - SEED_SIZE/2 + (Math.random()*16-8), y: () => pitRects[curr].y - SEED_SIZE/2 - 45 + (Math.random()*16-8),
+          scale: 1.3, duration: 350, easing: 'easeOutElastic(1, .8)',
+          update: function() { movingSeedsArray.forEach(s => { s.el.style.transform = `translate(${s.x}px, ${s.y}px) scale(${s.scale})`; s.el.style.zIndex = '100'; }); },
+          complete: resolve
         });
       });
-      currentSowPit = getNextValidPit(curr, turn); animating = false; updateClickability(); return;
+      currentSowPit = getNextValidPit(curr, turn);
+      animating = false; updateClickability(); return;
     }
   } else {
     const isOwnSide = (turn === 1 && P1_PITS.includes(curr)) || (turn === 2 && P2_PITS.includes(curr));
@@ -1111,11 +1219,14 @@ async function doMoveManual(index) {
       const oppIndex = (TOTAL_PITS - 2) - curr;
       if (board[oppIndex] > 0) {
         const storeIdx = turn === 1 ? P1_STORE : P2_STORE;
-        const capName = turn === 1 ? 'KAMU' : aiCharacters[currentAILevel].name;
+        const capName = turn === 1 ? 'KAMU' : aiCharacters[currentAILevel].name.toUpperCase();
         updateTurnBadge(`${SVGS.zap} CAPTURE!`, turn === 1 ? 'p1' : 'p2');
         document.getElementById('turn-badge').classList.add('pulse'); setTimeout(() => document.getElementById('turn-badge')?.classList.remove('pulse'), 600);
         showToast(`${SVGS.zap} <span>${capName} menangkap biji!</span>`);
-        let capSeeds = seedEntities.filter(s => s.pit === oppIndex || s.pit === curr); board[oppIndex] = 0; board[curr] = 0; updateCounts();
+
+        let capSeeds = seedEntities.filter(s => s.pit === oppIndex || s.pit === curr);
+        board[oppIndex] = 0; board[curr] = 0; updateCounts();
+
         const promises = [];
         capSeeds.forEach((seedObj, index) => {
           seedObj.pit = storeIdx; board[storeIdx]++;
@@ -1126,7 +1237,9 @@ async function doMoveManual(index) {
       }
     }
   }
-  heldSeeds = 0; currentSowPit = -1; movingSeedsArray = []; finishTurn(extraTurn);
+
+  heldSeeds = 0; currentSowPit = -1; movingSeedsArray = [];
+  finishTurn(extraTurn);
 }
 
 // ==========================================
@@ -1137,9 +1250,7 @@ function simEngineMove(boardState, startPit, playerTurn, isCongklak) {
   let isRelay = true; let extraTurn = false;
   const myStore = playerTurn === 1 ? P1_STORE : P2_STORE; const oppStore = playerTurn === 1 ? P2_STORE : P1_STORE; const myPits = playerTurn === 1 ? P1_PITS : P2_PITS;
   
-  // BUG FIX: Limitasi loop agar tidak infinite saat relay panjang di mode Congklak
   let safetyLimit = 0; 
-
   while (isRelay && safetyLimit < 50) {
     safetyLimit++;
     for (let i = 0; i < seeds; i++) {
@@ -1210,40 +1321,40 @@ async function playAITurn() {
   await sleep(700);
 
   let validMoves = P2_PITS.filter(i => board[i] > 0);
-  if (!validMoves || validMoves.length === 0) return; // BUG FIX: Failsafe mencegah eksekusi saat board kosong
+  if (!validMoves || validMoves.length === 0) return; 
   
   let bestMove = validMoves[0];
   let isCongklak = gameVariant === 'congklak';
 
-  if (currentAILevel === 1) { // LEO (Random)
+  if (currentAILevel === 1) { 
     bestMove = validMoves[Math.floor(Math.random() * validMoves.length)];
-  } else if (currentAILevel === 2) { // MAYA (Defensive/Safe)
+  } else if (currentAILevel === 2) { 
     let found = false;
     for(let m of validMoves) { if(simEngineMove(board, m, 2, isCongklak).nextTurn === 2) { bestMove = m; found = true; break; } }
     if(!found) bestMove = validMoves[Math.floor(Math.random() * validMoves.length)];
-  } else if (currentAILevel === 3) { // ZANE (Greedy/Aggressive - Depth 1)
+  } else if (currentAILevel === 3) { 
     bestMove = getBestMoveAI(board, 1, isCongklak); 
-  } else if (currentAILevel === 4) { // ELENA (Tactical - Depth 3)
-    bestMove = getBestMoveAI(board, 3, isCongklak); 
-  } else if (currentAILevel === 5) { // KAEL (Insane - Depth 5/6)
-    let d = isCongklak ? 4 : 6; // Disesuaikan agar web tidak hang di Congklak mode
+  } else if (currentAILevel === 4) { 
+    bestMove = getBestMoveAI(board, 2, isCongklak); 
+  } else if (currentAILevel === 5) { 
+    let d = isCongklak ? 3 : 5; 
     bestMove = getBestMoveAI(board, d, isCongklak); 
   }
 
   if(bestMove !== undefined && bestMove !== -1) {
-    doMoveAuto(bestMove);
+    doMoveAuto(bestMove); // AI selalu auto
   }
 }
 
 // ==========================================
-// TURN CYCLE
+// TURN CYCLE (Persis spt index 5 yg sudah matang + Panggilan AI)
 // ==========================================
 async function finishTurn(extraTurn) {
   if (extraTurn) {
-    const bonusName = turn === 1 ? 'KAMU' : aiCharacters[currentAILevel].name;
-    updateTurnBadge(`${SVGS.target} BONUS TURN — ${bonusName.toUpperCase()}!`, turn === 1 ? 'p1' : 'p2');
+    const bonusName = turn === 1 ? 'KAMU' : aiCharacters[currentAILevel].name.toUpperCase();
+    updateTurnBadge(`${SVGS.target} BONUS TURN — ${bonusName}!`, turn === 1 ? 'p1' : 'p2');
     document.getElementById('turn-badge').classList.add('pulse'); setTimeout(() => document.getElementById('turn-badge')?.classList.remove('pulse'), 600);
-    showToast(`${SVGS.target} <span>${bonusName} mendapat giliran bonus!</span>`);
+    showToast(`${SVGS.target} <span>${bonusName} giliran bonus!</span>`);
     await sleep(900);
   }
 
@@ -1260,7 +1371,8 @@ async function finishTurn(extraTurn) {
 }
 
 async function checkGameOver() {
-  const p1Empty = P1_PITS.every(i => board[i] === 0); const p2Empty = P2_PITS.every(i => board[i] === 0);
+  const p1Empty = P1_PITS.every(i => board[i] === 0);
+  const p2Empty = P2_PITS.every(i => board[i] === 0);
   if (!p1Empty && !p2Empty) return false;
 
   let sweepSeeds = [];
@@ -1270,22 +1382,27 @@ async function checkGameOver() {
   if (sweepSeeds.length > 0) {
     const promises = [];
     sweepSeeds.forEach((seedObj, index) => {
-      const storeIdx = P1_PITS.includes(seedObj.pit) ? P1_STORE : P2_STORE; seedObj.pit = storeIdx;
+      const storeIdx = P1_PITS.includes(seedObj.pit) ? P1_STORE : P2_STORE;
+      seedObj.pit = storeIdx;
       const targetPos = getPitTargetPosition(storeIdx, seedEntities.filter(s=>s.pit===storeIdx).length - 1);
       promises.push(new Promise(async res => { await sleep(index * 20); await animateSeedCapture(seedObj, targetPos); res(); }));
     });
     await Promise.all(promises); updateCounts();
   }
-  gameActive = false; animating = false; setTimeout(() => showGameOver(), 600); return true;
+
+  gameActive = false; animating = false;
+  setTimeout(() => showGameOver(), 600);
+  return true;
 }
 
 function showGameOver() {
-  const s1 = board[P1_STORE], s2 = board[P2_STORE]; const n1 = myGlobalName || 'PLAYER 1'; const aiName = aiCharacters[currentAILevel].name;
-
+  const s1 = board[P1_STORE], s2 = board[P2_STORE];
+  const n1 = playerNames[1] || 'Player 1'; const aiName = aiCharacters[currentAILevel].name;
+  
   document.getElementById('go-title').textContent = s1 === s2 ? 'DRAW!' : (s1 > s2 ? 'KAMU MENANG!' : `${aiName.toUpperCase()} MENANG!`);
   document.getElementById('go-p1').textContent = s1; document.getElementById('go-p2').textContent = s2;
-  const gn1 = document.getElementById('go-name-p1'); if (gn1) gn1.textContent = n1;
-  const gn2 = document.getElementById('go-name-p2'); if (gn2) gn2.textContent = aiName;
+  const gn1 = document.getElementById('go-name-p1'); const gn2 = document.getElementById('go-name-p2');
+  if (gn1) gn1.textContent = n1; if (gn2) gn2.textContent = aiName;
   document.getElementById('gameover-modal').classList.remove('hidden');
 
   if (s1 > s2) {
@@ -1300,47 +1417,81 @@ function showGameOver() {
 }
 
 function sleep(ms) { return new Promise(r => setTimeout(r, ms)); }
-let toastTimer; function showToast(htmlMsg) {
-  const el = document.getElementById('toast'); el.innerHTML = htmlMsg; el.classList.add('show');
-  clearTimeout(toastTimer); toastTimer = setTimeout(() => el.classList.remove('show'), 2000);
+
+let toastTimer;
+function showToast(htmlMsg) {
+  const el = document.getElementById('toast');
+  el.innerHTML = htmlMsg; el.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => el.classList.remove('show'), 2000);
 }
 
 function startGame() {
-  createBoard(); turn = startingPlayer; gameActive = true; animating = false; pitElements = {}; heldSeeds = 0; currentSowPit = -1; movingSeedsArray = [];
-  const sn1 = document.getElementById('score-name-p1'); const sn2 = document.getElementById('score-name-p2');
-  if (sn1) sn1.textContent = (myGlobalName || 'PLAYER 1').toUpperCase();
-  if (sn2) { sn2.textContent = aiCharacters[currentAILevel].name.toUpperCase(); sn2.style.color = aiCharacters[currentAILevel].color; }
-  
-  showScreen('game'); buildBoard();
-  const starterName = startingPlayer === 1 ? 'GILIRANMU' : `${aiCharacters[currentAILevel].name.toUpperCase()} MULAI DULU`;
-  updateTurnBadge(starterName, startingPlayer === 1 ? 'p1' : 'p2');
-  document.getElementById('gameover-modal').classList.add('hidden'); document.getElementById('reward-modal').classList.add('hidden');
+  createBoard(); turn = startingPlayer; gameActive = true; animating = false; pitElements = {};
+  heldSeeds = 0; currentSowPit = -1; movingSeedsArray = []; 
 
-  setTimeout(() => { updateClickability(); if(turn === 2) playAITurn(); }, 300);
+  const sn1 = document.getElementById('score-name-p1'); const sn2 = document.getElementById('score-name-p2');
+  if (sn1) sn1.textContent = (playerNames[1] || 'PLAYER 1').toUpperCase();
+  if (sn2) {
+    sn2.textContent = aiCharacters[currentAILevel].name.toUpperCase();
+    sn2.style.color = aiCharacters[currentAILevel].color;
+  }
+
+  showScreen('game'); buildBoard();
+  
+  const starterName = turn === 1 ? 'GILIRANMU' : `${aiCharacters[currentAILevel].name.toUpperCase()} MULAI DULU`;
+  updateTurnBadge(starterName, turn === 1 ? 'p1' : 'p2');
+  document.getElementById('gameover-modal').classList.add('hidden');
+  document.getElementById('reward-modal').classList.add('hidden');
+
+  setTimeout(() => { 
+      updateClickability(); 
+      if (turn === 2) playAITurn();
+  }, 300);
 }
 
 function exitToMenu() {
-  gameActive = false; document.getElementById('seed-layer').innerHTML = ''; seedEntities = []; showScreen('level-select');
+  gameActive = false; 
+  document.getElementById('seed-layer').innerHTML = ''; 
+  seedEntities = []; 
+  showScreen('level-select');
 }
 
 function showScreen(id) {
-  ['main-menu','level-select','game'].forEach(s => { document.getElementById(s)?.classList.toggle('hidden', s !== id); });
-  const fsBtn = document.getElementById('btn-fs-global'); if (fsBtn) fsBtn.style.display = (id === 'game') ? 'none' : 'inline-flex';
+  ['lobby','level-select','game'].forEach(s => { document.getElementById(s)?.classList.toggle('hidden', s !== id); });
+  const fsBtn = document.getElementById('btn-fs-global');
+  if (fsBtn) fsBtn.style.display = (id === 'game') ? 'none' : 'inline-flex';
+  
+  const rulesBtn = document.getElementById('btn-rules-lobby');
+  // MENYEMBUNYIKAN TOMBOL (?) SAAT DI GAME AGAR TIDAK OVERLAP
+  if (rulesBtn) rulesBtn.style.display = (id === 'game') ? 'none' : 'flex';
 }
 
 function checkOrientation() {
   const isPortrait = window.innerHeight > window.innerWidth;
   document.getElementById('portrait-warn').classList.toggle('hidden', !isPortrait);
 }
-let resizeTimeout; window.addEventListener('resize', () => { checkOrientation(); clearTimeout(resizeTimeout); resizeTimeout = setTimeout(() => { snapAllSeeds(); }, 150); }); checkOrientation();
+let resizeTimeout;
+window.addEventListener('resize', () => { 
+  checkOrientation(); 
+  clearTimeout(resizeTimeout);
+  resizeTimeout = setTimeout(() => { snapAllSeeds(); }, 150); 
+});
+checkOrientation();
 
 document.getElementById('btn-menu').onclick = exitToMenu;
 document.getElementById('go-menu').onclick = () => { document.getElementById('gameover-modal').classList.add('hidden'); exitToMenu(); };
-document.getElementById('go-rematch').onclick = () => { document.getElementById('gameover-modal').classList.add('hidden'); startingPlayer = startingPlayer === 1 ? 2 : 1; startGame(); };
+
+document.getElementById('go-rematch').onclick = () => {
+  document.getElementById('gameover-modal').classList.add('hidden');
+  startingPlayer = startingPlayer === 1 ? 2 : 1; 
+  startGame();
+};
 
 function tryLandscape() {
   try { if (screen.orientation && screen.orientation.lock) screen.orientation.lock('landscape').catch(() => {}); } catch(e) {}
-  if (document.documentElement.requestFullscreen) document.documentElement.requestFullscreen().catch(()=>{}); else if (document.documentElement.webkitRequestFullscreen) document.documentElement.webkitRequestFullscreen();
+  if (document.documentElement.requestFullscreen) document.documentElement.requestFullscreen().catch(()=>{});
+  else if (document.documentElement.webkitRequestFullscreen) document.documentElement.webkitRequestFullscreen();
   try { localStorage.setItem('mancala_fs', '1'); } catch(e) {}
 }
 
@@ -1350,10 +1501,17 @@ function updateFsButton() {
   const btn2 = document.getElementById('btn-fs-game'); if (btn2) btn2.innerHTML = inFs ? SVGS.min : SVGS.max;
 }
 document.addEventListener('fullscreenchange', updateFsButton); document.addEventListener('webkitfullscreenchange', updateFsButton);
-const toggleFs = () => { if (document.fullscreenElement || document.webkitFullscreenElement) { if (document.exitFullscreen) document.exitFullscreen(); else if (document.webkitExitFullscreen) document.webkitExitFullscreen(); } else { tryLandscape(); } };
-document.getElementById('btn-fs-global').onclick = toggleFs; document.getElementById('btn-fs-game').onclick = toggleFs; document.getElementById('btn-force-landscape').onclick = () => tryLandscape();
+
+const toggleFs = () => {
+  if (document.fullscreenElement || document.webkitFullscreenElement) {
+    if (document.exitFullscreen) document.exitFullscreen(); else if (document.webkitExitFullscreen) document.webkitExitFullscreen();
+  } else { tryLandscape(); }
+};
+document.getElementById('btn-fs-global').onclick = toggleFs; document.getElementById('btn-fs-game').onclick = toggleFs;
+document.getElementById('btn-force-landscape').onclick = () => tryLandscape();
 try { if (localStorage.getItem('mancala_fs') === '1') { document.addEventListener('click', function autoFs() { if (!document.fullscreenElement) tryLandscape(); document.removeEventListener('click', autoFs); }, { once: true, capture: true }); } } catch(e) {}
 
 </script>
 </body>
 </html>
+
